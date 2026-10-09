@@ -72,3 +72,32 @@ def confirmed_bias(evidence, verified_news_direction=None, reaction_verified=Fal
             or verified_news_direction != evidence.direction):
         return 'NEUTRAL'
     return evidence.direction
+
+
+def context_direction(rows):
+    if len(rows) < 30:
+        return 'UNVERIFIED'
+    closes = [bar['c'] for bar in rows]
+    average = ema(closes, 20)
+    if closes[-1] > average[-1] and average[-1] > average[-4]:
+        return 'BUY'
+    if closes[-1] < average[-1] and average[-1] < average[-4]:
+        return 'SELL'
+    return 'NEUTRAL'
+
+
+def multi_timeframe_evidence(five, fifteen, hourly, four_hour):
+    evidence = technical_evidence(five, fifteen)
+    hourly_direction = context_direction(hourly)
+    broad_direction = context_direction(four_hour)
+    if 'UNVERIFIED' in (hourly_direction, broad_direction):
+        return Evidence('NEUTRAL', 'Hourly or four-hour context unverified.')
+    if evidence.direction == 'NEUTRAL':
+        return evidence
+    if hourly_direction != evidence.direction:
+        return Evidence('NEUTRAL', 'Hourly context does not support the 5m/15m setup.')
+    if broad_direction not in (evidence.direction, 'NEUTRAL'):
+        return Evidence('NEUTRAL', 'Intraday recovery conflicts with the broader 4h trend; reversal unconfirmed.')
+    return Evidence(evidence.direction,
+                    evidence.reason + ' Hourly context agrees; 4h is not opposing.',
+                    evidence.invalidation)

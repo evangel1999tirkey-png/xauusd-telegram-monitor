@@ -11,7 +11,7 @@ import sys
 import urllib.request
 from datetime import datetime, timedelta, timezone
 from zoneinfo import ZoneInfo
-from signal_rules import technical_evidence, confirmed_bias
+from signal_rules import multi_timeframe_evidence, confirmed_bias
 
 UTC = timezone.utc
 IST = ZoneInfo('Asia/Kolkata')
@@ -39,10 +39,11 @@ def candles(interval, now):
     if not token:
         raise ValueError('data_not_configured')
     # Practice only: this token is never used against a live trading endpoint.
+    granularity = {5: 'M5', 15: 'M15', 60: 'H1', 240: 'H4'}[interval]
     url = ('https://api-fxpractice.oanda.com/v3/instruments/XAU_USD/candles'
-           f'?granularity=M{interval}&count=60&price=M')
+           f'?granularity={granularity}&count=60&price=M')
     result = read_json(url, {'Authorization': 'Bearer ' + token})
-    if result.get('instrument') != 'XAU_USD' or result.get('granularity') != f'M{interval}':
+    if result.get('instrument') != 'XAU_USD' or result.get('granularity') != granularity:
         raise ValueError('wrong_instrument')
     rows = []
     for candle in result.get('candles', []):
@@ -76,7 +77,9 @@ def status(now):
         try:
             five, five_close = candles(5, now)
             fifteen, fifteen_close = candles(15, now)
-            evidence = technical_evidence(five, fifteen)
+            hourly, hour_close = candles(60, now)
+            four_hour, four_close = candles(240, now)
+            evidence = multi_timeframe_evidence(five, fifteen, hourly, four_hour)
             # News, market reaction and spread verification are not connected.
             # Even a strong technical candidate cannot enable a combined signal.
             assert confirmed_bias(evidence) == 'NEUTRAL'
@@ -84,6 +87,8 @@ def status(now):
                       + ' Combined bias unconfirmed: news/reaction/spread feeds not connected.')
             freshness = ('Completed candles: 5m ' + five_close.astimezone(IST).strftime('%H:%M IST')
                          + '; 15m ' + fifteen_close.astimezone(IST).strftime('%H:%M IST')
+                         + '; 1h ' + hour_close.astimezone(IST).strftime('%H:%M IST')
+                         + '; 4h ' + four_close.astimezone(IST).strftime('%H:%M IST')
                          + '. Source: OANDA practice midpoint feed.')
         except Exception:
             # Never log API exception strings: they can contain credential URLs.

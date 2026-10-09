@@ -18,6 +18,19 @@ NEUTRAL because the required confirmation feeds are absent.
 
 Run `python -m unittest test_signal_rules.py` to verify failure guards.
 
+Hourly context must now agree, and four-hour context must not oppose the
+intraday candidate. Daily/weekly charts are background context for the desktop
+monitor, not a vote that substitutes for a confirmed scalp setup. All technical
+evidence is separate from verified news and from 1m execution confirmation.
+
+Additional feed research: Twelve Data lists XAU/USD as a commodity trial symbol
+(https://twelvedata.com/exchanges/commodity?group=reference). Trial access and
+continued free entitlement have not been tested. Its general commodity market
+data is listed under Grow, so this is not a promise of unlimited free gold data.
+Trading Economics documents calendar streaming with actual/forecast metadata,
+but requires credentials; no economic-news API has been connected. Browser
+TradingView access cannot be described as a server-side cloud data connection.
+
 - Five-minute scheduled Telegram status and a manual delivery test.
 - New York session boundaries and IST message times.
 - Optional read-only OANDA practice XAU_USD completed 5m/15m candles with

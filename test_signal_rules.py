@@ -1,6 +1,6 @@
 import unittest
 from copy import deepcopy
-from signal_rules import Evidence, confirmed_bias, technical_evidence
+from signal_rules import Evidence, confirmed_bias, technical_evidence, multi_timeframe_evidence
 
 
 def sample():
@@ -14,6 +14,12 @@ def sample():
 
 
 class ConfirmationTests(unittest.TestCase):
+    def test_broader_conflict_and_missing_context(self):
+        five, fifteen = sample()
+        self.assertEqual(multi_timeframe_evidence(five, fifteen, fifteen, fifteen).direction, 'BUY')
+        self.assertEqual(multi_timeframe_evidence(five, fifteen, fifteen, list(reversed(fifteen))).direction, 'NEUTRAL')
+        self.assertEqual(multi_timeframe_evidence(five, fifteen, [], fifteen).direction, 'NEUTRAL')
+
     def test_breakout_retest_and_higher_low(self):
         evidence = technical_evidence(*sample())
         self.assertEqual(evidence.direction, 'BUY')
