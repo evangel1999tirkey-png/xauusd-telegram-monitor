@@ -12,6 +12,7 @@ import urllib.request
 from datetime import datetime, timedelta, timezone
 from zoneinfo import ZoneInfo
 from signal_rules import multi_timeframe_evidence, confirmed_bias
+from public_quote import fetch_quote
 
 UTC = timezone.utc
 IST = ZoneInfo('Asia/Kolkata')
@@ -70,6 +71,14 @@ def candles(interval, now):
 
 def status(now):
     check = now.astimezone(IST).strftime('%d %b %Y, %H:%M IST')
+    try:
+        quote, quote_stamp = fetch_quote(now)
+        public = (f'Public gold cross-check: {quote:.2f} USD; source time '
+                  + quote_stamp.astimezone(IST).strftime('%d %b %H:%M:%S IST')
+                  + '. Not OANDA execution price or candle/spread confirmation.\n'
+                  + 'https://gold-api.com/docs\n')
+    except Exception:
+        public = 'Public gold cross-check unavailable or stale.\n'
     if not os.environ.get('OANDA_PRACTICE_TOKEN'):
         reason = 'Gold candle feed not connected; current 5m/15m structure unverified.'
         freshness = 'Data freshness: unavailable.'
@@ -94,7 +103,7 @@ def status(now):
             # Never log API exception strings: they can contain credential URLs.
             reason = 'Gold data unavailable, invalid or stale; current structure unverified.'
             freshness = 'Freshness verification failed.'
-    return (f'NEUTRAL — XAU/USD\nCheck: {check}\n{reason}\n{freshness}\n'
+    return (f'NEUTRAL — XAU/USD\nCheck: {check}\n{reason}\n{freshness}\n' + public +
             'Directional confidence: low. News/source publication time: unverified.\n'
             'Wait for fresh 5m/15m range break and holding retest: higher low for bullish '
             'confirmation, or failed reclaim/lower high for bearish confirmation. '

@@ -1,5 +1,7 @@
 # XAU/USD cloud Telegram monitor — prepared, not deployed
 
+The free no-key Gold API quote cross-check has now been tested locally. The code rejects wrong symbol/currency, invalid prices and source timestamps older than 90 seconds or in the future. This quote does not supply completed candles, broker spread, news surprises or independent USD/yield confirmation; it cannot enable BUY/SELL. Source: https://gold-api.com/docs and https://gold-api.com/llms.txt. Minute/hour history is listed as premium and is not used. Run `python -m unittest test_signal_rules.py test_public_quote.py` for the six verification tests.
+
 This package can run on GitHub Actions without your laptop. Standard Linux
 GitHub-hosted runners are free in a public repository. Schedules can be delayed
 or dropped, and inactive public repository schedules can be disabled. This is
