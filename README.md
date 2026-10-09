@@ -1,4 +1,4 @@
-# XAU/USD cloud Telegram monitor — prepared, not deployed
+# XAU/USD cloud Telegram monitor — data verification stage
 
 Delivery is now verified: GitHub Actions connection test and normal status run succeeded on 10 October 2026 at 00:47 and 00:49 IST. Credentials are in Actions secrets, not repository files. This verifies messaging only. Missing candle data now displays DATA UNAVAILABLE and missing news/execution confirmation displays CONFIRMATION INCOMPLETE; neither is a neutral market signal. Directional alerts remain unimplemented until those confirmations are connected.
 
@@ -83,3 +83,10 @@ credentials in repository files, workflow text, screenshots or chat messages.
 - https://developer.oanda.com/rest-live-v20/development-guide/
 - https://developer.oanda.com/rest-live-v20/instrument-df/
 - https://core.telegram.org/bots/api#sendmessage
+
+## Verified on 10 October 2026, 01:00–01:05 IST
+Free Twelve Data Basic account was created with explicit consent. Its XAU/USD trial returned 1-minute and 2,000 5-minute bars. Explicit UTC timestamps were validated locally, including 666 complete 15-minute, 166 hourly and 40 four-hour aggregates. The key was transferred directly to encrypted GitHub Actions secrets with specific approval, without a local credential file. Cloud run 37980719323 succeeded after connection, confirming Telegram delivery; inspect subsequent logs for candle confirmation rather than assuming a successful delivery proves feed freshness.
+
+The cloud now also checks the publisher's weekly economic calendar export and official Fed monetary-policy RSS. Calendar forecasts/previous values do not include actuals/revisions, so they cannot confirm a news surprise. The Fed RSS responded successfully in the local test. BLS CPI/employment RSS could not be verified and is explicitly marked unavailable. These sources do not cover all news, live Treasury yields, DXY or broker spread.
+
+Two candle requests per five-minute check (5m history and recent 1m) use up to 576 requests/day, below Basic's advertised 800/day limit before extra tests/retries. Trial entitlement may change. No paid plan selected. Run all ten guard tests with `python -m unittest test_signal_rules.py test_public_quote.py test_candle_feed.py test_news_context.py`. Publication/quote/candle freshness is reported separately. Missing confirmation must never be represented as a verified neutral market or profitable signal.

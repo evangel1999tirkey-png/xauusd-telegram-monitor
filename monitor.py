@@ -14,6 +14,7 @@ from zoneinfo import ZoneInfo
 from signal_rules import multi_timeframe_evidence, confirmed_bias
 from public_quote import fetch_quote
 from candle_feed import fetch as fetch_trial, aggregate
+from news_context import context as news_context
 
 UTC = timezone.utc
 IST = ZoneInfo('Asia/Kolkata')
@@ -91,6 +92,7 @@ def status(now):
                 fifteen, fifteen_close = aggregate(five, 15, now)
                 hourly, hour_close = aggregate(five, 60, now)
                 four_hour, four_close = aggregate(five, 240, now)
+                one, one_close = fetch_trial(1, datetime.now(UTC), size=80)
                 source = 'Twelve Data aggregate; not broker execution prices'
             else:
                 five, five_close = candles(5, now)
@@ -110,11 +112,13 @@ def status(now):
                          + '; 1h ' + hour_close.astimezone(IST).strftime('%H:%M IST')
                          + '; 4h ' + four_close.astimezone(IST).strftime('%H:%M IST')
                          + '. Source: ' + source + '.')
+            if os.environ.get('TWELVE_DATA_API_KEY'):
+                freshness += ' 1m completed through ' + one_close.astimezone(IST).strftime('%H:%M IST') + '; entry confirmation still conditional.'
         except Exception:
             # Never log API exception strings: they can contain credential URLs.
             reason = 'Gold data unavailable, invalid or stale; current structure unverified.'
             freshness = 'Freshness verification failed.'
-    return (f'{label}\nBias: unverified (no BUY/SELL signal).\nCheck: {check}\n{reason}\n{freshness}\n' + public +
+    return (f'{label}\nBias: unverified (no BUY/SELL signal).\nCheck: {check}\n{reason}\n{freshness}\n' + public + news_context(now) + '\n' +
             'Directional confidence: low. News/source publication time: unverified.\n'
             'Wait for fresh 5m/15m range break and holding retest: higher low for bullish '
             'confirmation, or failed reclaim/lower high for bearish confirmation. '
@@ -144,6 +148,9 @@ def main():
                'Cloud news and gold-data verification is still required.') if test else status(now)
     try:
         send(message)
+        if not test:
+            # Public market evidence only; no identifiers, keys or request URLs.
+            print(message)
         print('Telegram delivery confirmed.')
         return 0
     except Exception:
