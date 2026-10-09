@@ -1,0 +1,31 @@
+name: Gold Telegram monitor
+on:
+  schedule:
+    - cron: '2-57/5 * * * *'
+  workflow_dispatch:
+    inputs:
+      test_delivery:
+        description: Send a connection test without a trading signal
+        type: boolean
+        default: true
+permissions:
+  contents: read
+concurrency:
+  group: gold-monitor
+  cancel-in-progress: false
+jobs:
+  monitor:
+    runs-on: ubuntu-latest
+    timeout-minutes: 3
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Check and notify
+        env:
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+          OANDA_PRACTICE_TOKEN: ${{ secrets.OANDA_PRACTICE_TOKEN }}
+          TEST_DELIVERY: ${{ github.event_name == 'workflow_dispatch' && inputs.test_delivery && '1' || '0' }}
+        run: python monitor.py
