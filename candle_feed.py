@@ -9,9 +9,9 @@ from datetime import datetime, timedelta, timezone
 UTC = timezone.utc
 
 
-def validate(payload, interval, now):
+def validate(payload, interval, now, symbol='XAU/USD'):
     meta = payload.get('meta', {})
-    if (payload.get('status') != 'ok' or meta.get('symbol') != 'XAU/USD'
+    if (payload.get('status') != 'ok' or meta.get('symbol') != symbol
             or meta.get('interval') != f'{interval}min'):
         raise ValueError('feed_identity_or_access_invalid')
     rows = []
@@ -44,16 +44,16 @@ def validate(payload, interval, now):
     return rows, close
 
 
-def fetch(interval, now, size=80):
+def fetch(interval, now, size=80, symbol='XAU/USD'):
     key = os.environ.get('TWELVE_DATA_API_KEY')
     if not key:
         raise ValueError('data_not_configured')
-    query = urllib.parse.urlencode(dict(symbol='XAU/USD', interval=f'{interval}min',
+    query = urllib.parse.urlencode(dict(symbol=symbol, interval=f'{interval}min',
                                        outputsize=size, timezone='UTC', apikey=key))
     # Never log this URL or any exception text: the query contains a credential.
     with urllib.request.urlopen('https://api.twelvedata.com/time_series?'+query, timeout=15) as response:
         payload = json.load(response)
-    return validate(payload, interval, now)
+    return validate(payload, interval, datetime.now(UTC), symbol)
 
 
 def aggregate(five, interval, now):

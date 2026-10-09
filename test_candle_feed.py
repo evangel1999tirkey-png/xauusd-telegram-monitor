@@ -3,6 +3,16 @@ from datetime import datetime, timedelta, timezone
 from candle_feed import validate, aggregate
 
 class TrialFeedChecks(unittest.TestCase):
+    def test_currency_cannot_be_mistaken_for_gold(self):
+        now=datetime(2026,10,9,19,22,tzinfo=timezone.utc)
+        start=now.replace(minute=20)-timedelta(minutes=200)
+        raw=[dict(datetime=(start+timedelta(minutes=5*i)).isoformat(),
+                  open='1.1',high='1.2',low='1.0',close='1.15') for i in range(40)]
+        payload=dict(status='ok',meta=dict(symbol='EUR/USD',interval='5min',timezone='UTC'),values=raw)
+        with self.assertRaises(ValueError):
+            validate(payload,5,now)
+        self.assertEqual(len(validate(payload,5,now,symbol='EUR/USD')[0]),40)
+
     def test_closed_bars_and_identity_guards(self):
         now=datetime(2026,10,9,19,22,tzinfo=timezone.utc)
         start=now.replace(minute=20)-timedelta(minutes=200)

@@ -14,7 +14,7 @@ from zoneinfo import ZoneInfo
 from signal_rules import multi_timeframe_evidence, confirmed_bias
 from public_quote import fetch_quote
 from candle_feed import fetch as fetch_trial, aggregate
-from news_context import context as news_context
+from news_context import context as news_context, dollar_proxy
 
 UTC = timezone.utc
 IST = ZoneInfo('Asia/Kolkata')
@@ -118,7 +118,7 @@ def status(now):
             # Never log API exception strings: they can contain credential URLs.
             reason = 'Gold data unavailable, invalid or stale; current structure unverified.'
             freshness = 'Freshness verification failed.'
-    return (f'{label}\nBias: unverified (no BUY/SELL signal).\nCheck: {check}\n{reason}\n{freshness}\n' + public + news_context(now) + '\n' +
+    return (f'{label}\nBias: unverified (no BUY/SELL signal).\nCheck: {check}\n{reason}\n{freshness}\n' + public + dollar_proxy(now) + '\n' + news_context(now) + '\n' +
             'Directional confidence: low. News/source publication time: unverified.\n'
             'Wait for fresh 5m/15m range break and holding retest: higher low for bullish '
             'confirmation, or failed reclaim/lower high for bearish confirmation. '

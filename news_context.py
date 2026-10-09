@@ -11,6 +11,7 @@ FEEDS = {
     'Fed monetary policy': 'https://www.federalreserve.gov/feeds/press_monetary.xml',
     'BLS employment': 'https://www.bls.gov/feed/empsit.rss',
     'BLS CPI': 'https://www.bls.gov/feed/cpi.rss',
+    'BEA economic releases': 'https://apps.bea.gov/rss/rss.xml',
 }
 
 
@@ -48,7 +49,7 @@ def release_items(data, now):
         if stamp.tzinfo is None or stamp > now:
             continue
         title, link = item.findtext('title') or '', item.findtext('link') or ''
-        if not link.startswith(('https://www.bls.gov/', 'https://www.federalreserve.gov/')):
+        if not link.startswith(('https://www.bls.gov/', 'https://www.federalreserve.gov/', 'https://www.bea.gov/')):
             continue
         rows.append((stamp, title[:180], link))
     if not rows:
@@ -91,3 +92,20 @@ def context(now):
             lines.append(name + ' release feed unavailable or dates unverified.')
     lines.append('RSS is publication context, not consensus/revision analysis, live yield reaction or complete news coverage.')
     return '\n'.join(lines)
+
+
+def dollar_proxy(now):
+    # Once each quarter hour: up to 96 additional daily credits. Together with
+    # the two gold requests/check this totals at most 672/day before retries.
+    # This is a single currency pair, never DXY or a yield-reaction substitute.
+    if now.minute % 15 >= 5:
+        return 'EUR/USD cross-check not refreshed this check; live dollar/yield confirmation unverified.'
+    try:
+        from candle_feed import fetch
+        bars, close = fetch(15, now, size=80, symbol='EUR/USD')
+        change = (bars[-1]['c']/bars[-4]['c']-1)*100
+        return ('EUR/USD 45-minute change: ' + f'{change:+.3f}%' + '; completed through '
+                + close.astimezone(ZoneInfo('Asia/Kolkata')).strftime('%H:%M IST')
+                + '. Single-pair dollar proxy only; not DXY, news confirmation or yields.')
+    except Exception:
+        return 'EUR/USD cross-check unavailable/stale; live dollar/yield confirmation unverified.'
