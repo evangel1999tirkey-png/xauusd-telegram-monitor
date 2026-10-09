@@ -115,7 +115,7 @@ def dollar_proxy(now):
 def treasury_context(now):
     # One request each quarter hour: total projected provider use <=768/day,
     # before retries/manual tests. Never substitute daily rates or bond prices.
-    if now.minute % 15 >= 5:
+    if now.minute % 15 < 10:
         return 'US 2y yield not refreshed this check; live Treasury confirmation unverified.'
     try:
         from candle_feed import fetch
