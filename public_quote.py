@@ -23,4 +23,4 @@ def fetch_quote(now):
     # One request per scheduled run; exceeds the provider's 30-second cache.
     with urllib.request.urlopen(QUOTE_URL, timeout=10) as response:
         payload = json.load(response)
-    return validate_quote(payload, now)
+    return validate_quote(payload, datetime.now(now.tzinfo))

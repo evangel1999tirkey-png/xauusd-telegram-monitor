@@ -13,6 +13,7 @@ from datetime import datetime, timedelta, timezone
 from zoneinfo import ZoneInfo
 from signal_rules import multi_timeframe_evidence, confirmed_bias
 from public_quote import fetch_quote
+from candle_feed import fetch as fetch_trial, aggregate
 
 UTC = timezone.utc
 IST = ZoneInfo('Asia/Kolkata')
@@ -71,6 +72,7 @@ def candles(interval, now):
 
 def status(now):
     check = now.astimezone(IST).strftime('%d %b %Y, %H:%M IST')
+    label = 'DATA UNAVAILABLE — XAU/USD'
     try:
         quote, quote_stamp = fetch_quote(now)
         public = (f'Public gold cross-check: {quote:.2f} USD; source time '
@@ -79,31 +81,40 @@ def status(now):
                   + 'https://gold-api.com/docs\n')
     except Exception:
         public = 'Public gold cross-check unavailable or stale.\n'
-    if not os.environ.get('OANDA_PRACTICE_TOKEN'):
+    if not (os.environ.get('OANDA_PRACTICE_TOKEN') or os.environ.get('TWELVE_DATA_API_KEY')):
         reason = 'Gold candle feed not connected; current 5m/15m structure unverified.'
         freshness = 'Data freshness: unavailable.'
     else:
         try:
-            five, five_close = candles(5, now)
-            fifteen, fifteen_close = candles(15, now)
-            hourly, hour_close = candles(60, now)
-            four_hour, four_close = candles(240, now)
+            if os.environ.get('TWELVE_DATA_API_KEY'):
+                five, five_close = fetch_trial(5, now, size=2000)
+                fifteen, fifteen_close = aggregate(five, 15, now)
+                hourly, hour_close = aggregate(five, 60, now)
+                four_hour, four_close = aggregate(five, 240, now)
+                source = 'Twelve Data aggregate; not broker execution prices'
+            else:
+                five, five_close = candles(5, now)
+                fifteen, fifteen_close = candles(15, now)
+                hourly, hour_close = candles(60, now)
+                four_hour, four_close = candles(240, now)
+                source = 'OANDA practice midpoint feed'
             evidence = multi_timeframe_evidence(five, fifteen, hourly, four_hour)
             # News, market reaction and spread verification are not connected.
             # Even a strong technical candidate cannot enable a combined signal.
             assert confirmed_bias(evidence) == 'NEUTRAL'
+            label = 'CONFIRMATION INCOMPLETE — XAU/USD'
             reason = ('Technical evidence: ' + evidence.reason
                       + ' Combined bias unconfirmed: news/reaction/spread feeds not connected.')
             freshness = ('Completed candles: 5m ' + five_close.astimezone(IST).strftime('%H:%M IST')
                          + '; 15m ' + fifteen_close.astimezone(IST).strftime('%H:%M IST')
                          + '; 1h ' + hour_close.astimezone(IST).strftime('%H:%M IST')
                          + '; 4h ' + four_close.astimezone(IST).strftime('%H:%M IST')
-                         + '. Source: OANDA practice midpoint feed.')
+                         + '. Source: ' + source + '.')
         except Exception:
             # Never log API exception strings: they can contain credential URLs.
             reason = 'Gold data unavailable, invalid or stale; current structure unverified.'
             freshness = 'Freshness verification failed.'
-    return (f'NEUTRAL — XAU/USD\nCheck: {check}\n{reason}\n{freshness}\n' + public +
+    return (f'{label}\nBias: unverified (no BUY/SELL signal).\nCheck: {check}\n{reason}\n{freshness}\n' + public +
             'Directional confidence: low. News/source publication time: unverified.\n'
             'Wait for fresh 5m/15m range break and holding retest: higher low for bullish '
             'confirmation, or failed reclaim/lower high for bearish confirmation. '

@@ -1,5 +1,9 @@
 # XAU/USD cloud Telegram monitor — prepared, not deployed
 
+Delivery is now verified: GitHub Actions connection test and normal status run succeeded on 10 October 2026 at 00:47 and 00:49 IST. Credentials are in Actions secrets, not repository files. This verifies messaging only. Missing candle data now displays DATA UNAVAILABLE and missing news/execution confirmation displays CONFIRMATION INCOMPLETE; neither is a neutral market signal. Directional alerts remain unimplemented until those confirmations are connected.
+
+An optional Twelve Data trial candle connector is prepared. Set TWELVE_DATA_API_KEY only after account consent and XAU/USD entitlement testing. The public demo rejected XAU/USD with HTTP 401. The connector requests 2,000 genuine 5-minute OHLC bars, excludes the current bar, validates identity/continuity/freshness, and aggregates complete 15-minute/hourly/four-hour segments. Missing segments are discarded, never filled. One request per five-minute check is 288 requests/day, within the advertised Basic 800/day quota if trial entitlement permits this symbol; additional requests and retries consume that budget. This is not a claim of successful candle access. Run `python -m unittest test_signal_rules.py test_public_quote.py test_candle_feed.py` (eight tests).
+
 The free no-key Gold API quote cross-check has now been tested locally. The code rejects wrong symbol/currency, invalid prices and source timestamps older than 90 seconds or in the future. This quote does not supply completed candles, broker spread, news surprises or independent USD/yield confirmation; it cannot enable BUY/SELL. Source: https://gold-api.com/docs and https://gold-api.com/llms.txt. Minute/hour history is listed as premium and is not used. Run `python -m unittest test_signal_rules.py test_public_quote.py` for the six verification tests.
 
 This package can run on GitHub Actions without your laptop. Standard Linux
