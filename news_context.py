@@ -90,6 +90,7 @@ def context(now):
                          + '; ' + latest[1] + '. ' + latest[2])
         except Exception:
             lines.append(name + ' release feed unavailable or dates unverified.')
+    lines.append(treasury_context(now))
     lines.append('RSS is publication context, not consensus/revision analysis, live yield reaction or complete news coverage.')
     return '\n'.join(lines)
 
@@ -109,3 +110,23 @@ def dollar_proxy(now):
                 + '. Single-pair dollar proxy only; not DXY, news confirmation or yields.')
     except Exception:
         return 'EUR/USD cross-check unavailable/stale; live dollar/yield confirmation unverified.'
+
+
+def treasury_context(now):
+    # One request each quarter hour: total projected provider use <=768/day,
+    # before retries/manual tests. Never substitute daily rates or bond prices.
+    if now.minute % 15 >= 5:
+        return 'US 2y yield not refreshed this check; live Treasury confirmation unverified.'
+    try:
+        from candle_feed import fetch
+        bars, close = fetch(5, now, size=80, symbol='US2Y')
+        # Catalogue identifies this symbol as a Treasury yield. Require a
+        # plausible percentage scale before reporting a basis-point change.
+        if not all(0 < b['c'] < 30 for b in bars[-7:]):
+            raise ValueError('yield_units_unverified')
+        change_bp = (bars[-1]['c']-bars[-7]['c'])*100
+        return ('US 2y provider yield: ' + f"{bars[-1]['c']:.3f}%; 30-minute change {change_bp:+.1f} bp"
+                + '; completed through ' + close.astimezone(ZoneInfo('Asia/Kolkata')).strftime('%H:%M IST')
+                + '. 10y yield and independent reaction confirmation still unavailable.')
+    except Exception:
+        return 'US 2y intraday yield unavailable/stale; Treasury reaction remains unverified.'
