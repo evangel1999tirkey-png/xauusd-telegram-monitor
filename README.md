@@ -7,6 +7,17 @@ not a continuous or guaranteed five-minute trading feed.
 
 ## Current capability
 
+The signal rules now require a completed 5m breakout, held retest and higher
+low (or bearish mirror), agreeing with the slope and position of a 15m EMA.
+They reject large volatility spikes, narrow ranges and extended moves.
+The combined bias gate additionally requires fresh data, verified matching
+news, verified market reaction, acceptable spread and no imminent high-impact
+release. These are conservative heuristics, not backtested profitability or
+calibrated confidence estimates. The current cloud workflow still emits only
+NEUTRAL because the required confirmation feeds are absent.
+
+Run `python -m unittest test_signal_rules.py` to verify failure guards.
+
 - Five-minute scheduled Telegram status and a manual delivery test.
 - New York session boundaries and IST message times.
 - Optional read-only OANDA practice XAU_USD completed 5m/15m candles with

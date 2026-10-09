@@ -11,6 +11,7 @@ import sys
 import urllib.request
 from datetime import datetime, timedelta, timezone
 from zoneinfo import ZoneInfo
+from signal_rules import technical_evidence, confirmed_bias
 
 UTC = timezone.utc
 IST = ZoneInfo('Asia/Kolkata')
@@ -75,7 +76,12 @@ def status(now):
         try:
             five, five_close = candles(5, now)
             fifteen, fifteen_close = candles(15, now)
-            reason = 'Fresh candles verified, but automated news/cross-asset confirmation is not connected.'
+            evidence = technical_evidence(five, fifteen)
+            # News, market reaction and spread verification are not connected.
+            # Even a strong technical candidate cannot enable a combined signal.
+            assert confirmed_bias(evidence) == 'NEUTRAL'
+            reason = ('Technical evidence: ' + evidence.reason
+                      + ' Combined bias unconfirmed: news/reaction/spread feeds not connected.')
             freshness = ('Completed candles: 5m ' + five_close.astimezone(IST).strftime('%H:%M IST')
                          + '; 15m ' + fifteen_close.astimezone(IST).strftime('%H:%M IST')
                          + '. Source: OANDA practice midpoint feed.')
