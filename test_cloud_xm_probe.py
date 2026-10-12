@@ -14,6 +14,19 @@ class CloudCredentialGate(unittest.TestCase):
             result=cloud_xm_probe.collect()
         self.assertEqual(result['status'],'CLOUD_RUNTIME_READY')
         mt.initialize.assert_not_called()
+
+    def test_auth_failure_logs_only_numeric_code(self):
+        mt=Mock();mt.initialize.return_value=False
+        mt.last_error.return_value=(-6,'private error detail')
+        with patch.dict('sys.modules',{'MetaTrader5':mt}),\
+             patch.dict('os.environ',{'XM_TERMINAL_PATH':'test-terminal',
+                        'BROKER_CLOUD_APPROVED':'1','XM_DEMO_LOGIN':'123',
+                        'XM_DEMO_SERVER':'test','XM_INVESTOR_PASSWORD':'test-only'},clear=True),\
+             patch.object(cloud_xm_probe.Path,'is_file',return_value=True):
+            result=cloud_xm_probe.collect()
+        self.assertEqual(result['sdk_error_code'],-6)
+        self.assertNotIn('private error detail',str(result))
+        self.assertNotIn('test-only',str(result))
         self.assertNotIn('test-only',str(result))
 
     def test_missing_secret_does_not_attempt_login(self):
@@ -24,6 +37,8 @@ class CloudCredentialGate(unittest.TestCase):
              patch.object(cloud_xm_probe.Path,'is_file',return_value=True):
             result=cloud_xm_probe.collect()
         self.assertEqual(result['reason'],'encrypted_broker_secrets_missing')
+        self.assertEqual(result['missing_secret_names'],
+                         ['XM_DEMO_LOGIN','XM_DEMO_SERVER','XM_INVESTOR_PASSWORD'])
         mt.initialize.assert_not_called()
 
 
