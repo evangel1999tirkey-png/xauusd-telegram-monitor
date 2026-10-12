@@ -25,7 +25,8 @@ def collect():
                 'missing_secret_names':missing}
     try:
         expected_login=int(login)
-        if not mt.initialize(terminal,login=expected_login,server=server,password=password,timeout=15000):
+        if not mt.initialize(terminal,login=expected_login,server=server,password=password,
+                             timeout=60000,portable=True):
             error=mt.last_error()
             code=error[0] if isinstance(error,tuple) and type(error[0]) is int else None
             return {'status':'BROKER_CLOUD_UNCONNECTED','reason':'broker_authentication_not_verified',
@@ -34,7 +35,7 @@ def collect():
         mt.shutdown()
         offset=int(os.environ.get('XM_SERVER_OFFSET_SECONDS','0'))
         day=os.environ.get('XM_OFFSET_VERIFIED_DATE')
-        result=probe(mt,terminal,expected_login,server,offset,day)
+        result=probe(mt,terminal,expected_login,server,offset,day,portable=True)
         return {**result,'cloud_demo_only':True,'telegram_sent':False}
     finally:
         password=None
@@ -45,7 +46,7 @@ def main():
     if '--worker' not in sys.argv:
         try:
             print(subprocess.check_output([sys.executable,__file__,'--worker'],
-                  timeout=45,text=True,stderr=subprocess.DEVNULL).strip())
+                  timeout=95,text=True,stderr=subprocess.DEVNULL).strip())
         except subprocess.TimeoutExpired:
             print(json.dumps({'status':'BROKER_CLOUD_UNCONNECTED','reason':'bounded_connection_timeout'}))
         except subprocess.CalledProcessError:
