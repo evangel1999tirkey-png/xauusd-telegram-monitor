@@ -5,6 +5,7 @@ import xml.etree.ElementTree as ET
 from datetime import datetime, timedelta, timezone
 from email.utils import parsedate_to_datetime
 from zoneinfo import ZoneInfo
+from official_surveys import context as official_survey_context
 
 CALENDAR = 'https://nfs.faireconomy.media/ff_calendar_thisweek.json'
 FEEDS = {
@@ -66,9 +67,12 @@ def download(url):
 def context(now):
     ist = ZoneInfo('Asia/Kolkata')
     lines = []
+    survey_window=False
     try:
         events = calendar_events(json.loads(download(CALENDAR)), now)
         blocked = blackout(events, now)
+        survey_window=any(('uom' in e['title'].lower() or 'michigan' in e['title'].lower())
+                          and abs((e['time']-now).total_seconds())<=1800 for e in events)
         upcoming = [event for event in events if event['time'] >= now]
         lines.append('Calendar checked now: Forex Factory weekly export; actuals/revisions unavailable.')
         if blocked:
@@ -90,6 +94,7 @@ def context(now):
                          + '; ' + latest[1] + '. ' + latest[2])
         except Exception:
             lines.append(name + ' release feed unavailable or dates unverified.')
+    lines.append(official_survey_context(now,survey_window))
     lines.append(treasury_context(now))
     lines.append('RSS is publication context, not consensus/revision analysis, live yield reaction or complete news coverage.')
     return '\n'.join(lines)
