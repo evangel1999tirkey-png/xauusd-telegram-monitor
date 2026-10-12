@@ -3,6 +3,7 @@ import json
 import os
 import urllib.parse
 import urllib.request
+import urllib.error
 from datetime import datetime,timezone
 from candle_feed import validate
 
@@ -17,6 +18,9 @@ def check(symbol):
                                   headers={'User-Agent':'PersonalGoldMonitor/1.0'})
         with urllib.request.urlopen(req,timeout=15) as response:
             data=json.load(response)
+    except urllib.error.HTTPError as error:
+        # The numeric HTTP status is safe; messages/URLs may include the key.
+        return {'symbol':symbol,'access':'http_rejected','http_status':error.code}
     except Exception:
         # Never print exception strings, request URLs or provider error messages.
         return {'symbol':symbol,'access':'request_failed'}
@@ -30,6 +34,11 @@ def check(symbol):
          'interval_verified':meta.get('interval')=='5min',
          'utc_verified':meta.get('timezone') in ('UTC','Etc/UTC'),
          'returned_bars':len(data.get('values',[]))}
+    try:
+        newest=max(datetime.fromisoformat(r['datetime']) for r in data.get('values',[]))
+        out['latest_returned_bar_time']=newest.isoformat()
+    except Exception:
+        out['latest_returned_bar_time']='unverified'
     try:
         rows,close=validate(data,5,datetime.now(timezone.utc),symbol)
         out.update(fresh_complete_bars_verified=True,closed_through_utc=close.isoformat())
