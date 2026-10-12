@@ -3,6 +3,7 @@ on:
   push:
     paths:
       - '.github/workflows/feed-diagnostic.yml'
+      - 'feed_diagnostic.py'
   workflow_dispatch:
 permissions:
   contents: read
