@@ -26,7 +26,10 @@ def collect():
     try:
         expected_login=int(login)
         if not mt.initialize(terminal,login=expected_login,server=server,password=password,timeout=15000):
-            return {'status':'BROKER_CLOUD_UNCONNECTED','reason':'broker_authentication_not_verified'}
+            error=mt.last_error()
+            code=error[0] if isinstance(error,tuple) and type(error[0]) is int else None
+            return {'status':'BROKER_CLOUD_UNCONNECTED','reason':'broker_authentication_not_verified',
+                    'sdk_error_code':code}
         # Do not log SDK errors, credentials, account balances, names or numbers.
         mt.shutdown()
         offset=int(os.environ.get('XM_SERVER_OFFSET_SECONDS','0'))
