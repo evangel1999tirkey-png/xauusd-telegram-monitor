@@ -39,7 +39,7 @@ jobs:
           python -m pip install MetaTrader5==5.0.6231
       - name: Verify runtime or approved demo investor quote access
         env:
-          BROKER_CLOUD_APPROVED: ${{ ((github.event_name == 'workflow_dispatch' && inputs.connect_broker) || (github.event_name == 'push' && github.event.head_commit.message == 'Test isolated XM cloud cold startup 2026-10-12 1841 IST')) && '1' || '0' }}
+          BROKER_CLOUD_APPROVED: ${{ ((github.event_name == 'workflow_dispatch' && inputs.connect_broker) || (github.event_name == 'push' && github.event.head_commit.message == 'Isolate cloud terminal IPC 2026-10-12 1844 IST')) && '1' || '0' }}
           XM_DEMO_LOGIN: ${{ secrets.XM_DEMO_LOGIN }}
           XM_DEMO_SERVER: ${{ secrets.XM_DEMO_SERVER }}
           XM_INVESTOR_PASSWORD: ${{ secrets.XM_INVESTOR_PASSWORD }}
