@@ -43,8 +43,8 @@ def validate_account(account, expected_login, expected_server, demo_mode):
 
 
 def probe(mt, terminal, expected_login, expected_server, server_offset_seconds=0,
-          offset_verified_date=None):
-    if not mt.initialize(terminal, timeout=10000):
+          offset_verified_date=None, portable=False):
+    if not mt.initialize(terminal, timeout=10000, portable=portable):
         raise ValueError('terminal_connection_unavailable')
     try:
         validate_account(mt.account_info(), expected_login, expected_server,
