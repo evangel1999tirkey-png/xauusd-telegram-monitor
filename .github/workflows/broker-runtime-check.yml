@@ -1,0 +1,48 @@
+name: Read-only cloud broker runtime check
+on:
+  push:
+    paths:
+      - '.github/workflows/broker-runtime-check.yml'
+  workflow_dispatch:
+    inputs:
+      connect_broker:
+        description: Use specifically approved encrypted demo investor credentials
+        type: boolean
+        default: false
+permissions:
+  contents: read
+jobs:
+  runtime:
+    runs-on: windows-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install official data runtime in ephemeral runner
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = 'Stop'
+          $taskInstaller = Join-Path $env:RUNNER_TEMP 'mt5setup.exe'
+          $taskInstallRoot = Join-Path $env:RUNNER_TEMP 'mt5-data-probe'
+          Invoke-WebRequest -Uri 'https://download.terminal.free/cdn/web/metaquotes.ltd/mt5/mt5setup.exe?utm_campaign=download&utm_source=www.metatrader.com' -OutFile $taskInstaller
+          $taskSignature = Get-AuthenticodeSignature -LiteralPath $taskInstaller
+          if ($taskSignature.Status -ne 'Valid' -or $taskSignature.SignerCertificate.Subject -notmatch 'MetaQuotes') { throw 'Official installer signature not verified.' }
+          $taskInstallerProcess = Start-Process -FilePath $taskInstaller -ArgumentList '/auto',('/path:'+$taskInstallRoot) -WindowStyle Hidden -PassThru
+          if (-not $taskInstallerProcess.WaitForExit(180000)) { throw 'Runtime installation timed out.' }
+          $taskTerminal = Join-Path $taskInstallRoot 'terminal64.exe'
+          if (-not (Test-Path -LiteralPath $taskTerminal)) { throw 'Terminal executable unavailable.' }
+          ('XM_TERMINAL_PATH='+$taskTerminal) | Out-File -FilePath $env:GITHUB_ENV -Append -Encoding utf8
+          python -m pip install MetaTrader5==5.0.6231
+      - name: Verify runtime or approved demo investor quote access
+        env:
+          BROKER_CLOUD_APPROVED: ${{ github.event_name == 'workflow_dispatch' && inputs.connect_broker && '1' || '0' }}
+          XM_DEMO_LOGIN: ${{ secrets.XM_DEMO_LOGIN }}
+          XM_DEMO_SERVER: ${{ secrets.XM_DEMO_SERVER }}
+          XM_INVESTOR_PASSWORD: ${{ secrets.XM_INVESTOR_PASSWORD }}
+          XM_SERVER_OFFSET_SECONDS: '10800'
+          XM_OFFSET_VERIFIED_DATE: '2026-10-12'
+        run: python cloud_xm_probe.py
