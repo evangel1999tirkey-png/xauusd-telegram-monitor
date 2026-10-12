@@ -6,6 +6,7 @@ import urllib.request
 import urllib.error
 from datetime import datetime,timezone
 from candle_feed import validate
+from official_surveys import fetch as fetch_official_survey
 
 
 def check(symbol):
@@ -50,6 +51,11 @@ def check(symbol):
 
 
 if __name__=='__main__':
+    try:
+        survey=fetch_official_survey(datetime.now(timezone.utc))
+    except Exception:
+        survey={'status':'unavailable_or_invalid'}
     print(json.dumps({'check_utc':datetime.now(timezone.utc).isoformat(),
-                      'scope':'manual data test; monitoring and Telegram stay paused',
+                      'scope':'manual data test; no Telegram messages from this diagnostic',
+                      'official_michigan':survey,
                       'results':[check(s) for s in ('US2Y','US10Y')]}))
