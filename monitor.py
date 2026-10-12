@@ -1,9 +1,4 @@
-"""Read-only cloud monitor. No order endpoints and no paid AI calls.
-
-This initial version verifies candles but has no verified news-analysis feed.
-It deliberately reports NEUTRAL rather than treating a technical move as a
-news-confirmed BUY/SELL. Deployment is not complete until live data is tested.
-"""
+"""Free cloud data/status monitor; missing evidence never becomes a market signal."""
 import json
 import math
 import os
@@ -105,8 +100,8 @@ def status(now):
             # Even a strong technical candidate cannot enable a combined signal.
             assert confirmed_bias(evidence) == 'NEUTRAL'
             label = 'CONFIRMATION INCOMPLETE — XAU/USD'
-            reason = ('Technical evidence: ' + evidence.reason
-                      + ' Combined bias unconfirmed: news/reaction/spread feeds not connected.')
+            reason = ('Technical structure: ' + evidence.reason
+                      + ' Combined directional confirmation remains unverified.')
             freshness = ('Completed candles: 5m ' + five_close.astimezone(IST).strftime('%H:%M IST')
                          + '; 15m ' + fifteen_close.astimezone(IST).strftime('%H:%M IST')
                          + '; 1h ' + hour_close.astimezone(IST).strftime('%H:%M IST')
@@ -118,12 +113,26 @@ def status(now):
             # Never log API exception strings: they can contain credential URLs.
             reason = 'Gold data unavailable, invalid or stale; current structure unverified.'
             freshness = 'Freshness verification failed.'
-    return (f'{label}\nBias: unverified (no BUY/SELL signal).\nCheck: {check}\n{reason}\n{freshness}\n' + public + dollar_proxy(now) + '\n' + news_context(now) + '\n' +
-            'Directional confidence: low. News/source publication time: unverified.\n'
-            'Wait for fresh 5m/15m range break and holding retest: higher low for bullish '
-            'confirmation, or failed reclaim/lower high for bearish confirmation. '
-            'Use 1m only for entry confirmation. Conditional bias, not an order.\n'
-            'Cloud setup is in verification mode; it does not yet reproduce the news monitor.')
+    context_lines=compact_context(news_context(now))
+    return (f'{label}\nCheck: {check}\n{reason}\n{freshness}\n'
+            + public + dollar_proxy(now) + '\n' + context_lines + '\n'
+            'Missing: verified actual/consensus/revision analysis, live Treasury reaction, '
+            'XM execution-cost and 1m entry checks. Local XM demo access does not run in this cloud job.\n'
+            'Confidence: direction unverified. Wait for completed 5m/15m break and held retest '
+            'or failed reclaim; use 1m for entry confirmation only.\n'
+            'Free monitoring status, not a confirmed BUY/SELL or a verified neutral market.')
+
+
+def compact_context(context):
+    prefixes=('Calendar checked now:', 'Economic calendar unavailable', 'WAIT:',
+              'Next listed USD event:', 'No later USD event', 'US 2y')
+    lines=[line for line in context.splitlines() if line.startswith(prefixes)]
+    unavailable=sum('release feed unavailable' in line or 'release feed unavailable or' in line
+                    for line in context.splitlines())
+    if unavailable:
+        lines.append(f'Official release feeds unavailable/unverified: {unavailable}.')
+    lines.append('https://www.forexfactory.com/calendar')
+    return '\n'.join(lines)
 
 
 def send(message):
