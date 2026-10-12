@@ -1,0 +1,15 @@
+{
+  "schema_version": 1,
+  "verified_at_utc": "2026-10-12T11:15:38+00:00",
+  "scope": "Historical releases only; not a live comprehensive news feed",
+  "records": [
+    {"event_code":"initial-jobless-claims","period_server":"2026.10.03","event_utc_epoch":1791462600,"unit":0,"multiplier":1,"actual":197.0,"previous":197.0,"revised_previous":199.0,"market_consensus":200.0,"consensus_survey":"Reuters economist poll","official_source":"https://www.dol.gov/ui/data.pdf","consensus_source":"https://www.investing.com/news/economic-indicators/us-weekly-jobless-claims-fall-as-layoffs-remain-low-4939045","official_publication_utc":"2026-10-08T12:30:00+00:00","consensus_source_publication_utc":null},
+    {"event_code":"continuing-jobless-claims","period_server":"2026.09.26","event_utc_epoch":1791462600,"unit":0,"multiplier":2,"actual":1.716,"previous":1.701,"revised_previous":1.699,"market_consensus":null,"official_source":"https://www.dol.gov/ui/data.pdf","official_publication_utc":"2026-10-08T12:30:00+00:00"},
+    {"event_code":"initial-jobless-claims-4-week-average","period_server":"2026.10.03","event_utc_epoch":1791462600,"unit":0,"multiplier":1,"actual":198.0,"previous":200.0,"revised_previous":200.5,"market_consensus":null,"official_source":"https://www.dol.gov/ui/data.pdf","official_publication_utc":"2026-10-08T12:30:00+00:00"},
+    {"event_code":"michigan-consumer-sentiment","period_server":"2026.10.01","event_utc_epoch":1791554400,"unit":0,"multiplier":0,"actual":46.3,"previous":48.1,"revised_previous":null,"market_consensus":47.8,"consensus_survey":"Reuters economist poll","official_source":"https://www.sca.isr.umich.edu/","consensus_source":"https://www.marketscreener.com/news/us-consumer-sentiment-deteriorates-further-in-october-ce785ddcd88af324","official_publication_utc":null,"consensus_source_publication_utc":null},
+    {"event_code":"michigan-consumer-expectations","period_server":"2026.10.01","event_utc_epoch":1791554400,"unit":0,"multiplier":0,"actual":47.3,"previous":46.3,"revised_previous":null,"market_consensus":null,"official_source":"https://www.sca.isr.umich.edu/","official_publication_utc":null},
+    {"event_code":"michigan-current-conditions","period_server":"2026.10.01","event_utc_epoch":1791554400,"unit":0,"multiplier":0,"actual":44.7,"previous":50.9,"revised_previous":null,"market_consensus":null,"official_source":"https://www.sca.isr.umich.edu/","official_publication_utc":null},
+    {"event_code":"michigan-inflation-expectations","period_server":"2026.10.01","event_utc_epoch":1791554400,"unit":1,"multiplier":0,"actual":4.7,"previous":4.6,"revised_previous":null,"market_consensus":null,"official_source":"https://www.sca.isr.umich.edu/","official_publication_utc":null},
+    {"event_code":"michigan-5-year-inflation-expectations","period_server":"2026.10.01","event_utc_epoch":1791554400,"unit":1,"multiplier":0,"actual":3.5,"previous":3.4,"revised_previous":null,"market_consensus":null,"official_source":"https://www.sca.isr.umich.edu/","official_publication_utc":null}
+  ]
+}
