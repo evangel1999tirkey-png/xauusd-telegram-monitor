@@ -1,6 +1,10 @@
 name: Gold Telegram monitor
 on:
-  # Schedule paused at the user's request. Restore only when asked.
+  schedule:
+    - cron: '2-57/5 * * * *'
+  push:
+    paths:
+      - '.github/workflows/monitor.yml'
   workflow_dispatch:
     inputs:
       test_delivery:
@@ -14,7 +18,6 @@ concurrency:
   cancel-in-progress: false
 jobs:
   monitor:
-    if: ${{ false }} # User paused all signal delivery.
     runs-on: ubuntu-latest
     timeout-minutes: 3
     steps:
