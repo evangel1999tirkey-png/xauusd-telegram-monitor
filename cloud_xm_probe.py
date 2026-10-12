@@ -18,7 +18,11 @@ def collect():
                 'telegram_sent':False}
     login,server,password=(os.environ.get(k) for k in ('XM_DEMO_LOGIN','XM_DEMO_SERVER','XM_INVESTOR_PASSWORD'))
     if not all((login,server,password)):
-        return {'status':'BROKER_CLOUD_UNCONNECTED','reason':'encrypted_broker_secrets_missing'}
+        missing=[name for name,value in zip(
+            ('XM_DEMO_LOGIN','XM_DEMO_SERVER','XM_INVESTOR_PASSWORD'),
+            (login,server,password)) if not value]
+        return {'status':'BROKER_CLOUD_UNCONNECTED','reason':'encrypted_broker_secrets_missing',
+                'missing_secret_names':missing}
     try:
         expected_login=int(login)
         if not mt.initialize(terminal,login=expected_login,server=server,password=password,timeout=15000):
