@@ -125,7 +125,7 @@ def status(now):
 
 def compact_context(context):
     prefixes=('Calendar checked now:', 'Economic calendar unavailable', 'WAIT:',
-              'Next listed USD event:', 'No later USD event', 'US 2y')
+              'Next listed USD event:', 'No later USD event', 'US 2y', 'Official Michigan')
     lines=[line for line in context.splitlines() if line.startswith(prefixes)]
     unavailable=sum('release feed unavailable' in line or 'release feed unavailable or' in line
                     for line in context.splitlines())
