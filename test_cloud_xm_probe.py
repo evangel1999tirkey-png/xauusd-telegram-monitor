@@ -4,6 +4,36 @@ import cloud_xm_probe
 
 
 class CloudCredentialGate(unittest.TestCase):
+    def test_direct_initialize_remains_approval_gated(self):
+        mt=Mock();mt.__version__='test'
+        with patch.dict('sys.modules',{'MetaTrader5':mt}),\
+             patch.dict('os.environ',{'XM_TERMINAL_PATH':'test-terminal',
+                        'BROKER_CLOUD_APPROVED':'0','XM_INITIALIZE_WITH_LOGIN':'1',
+                        'XM_DEMO_LOGIN':'123','XM_DEMO_SERVER':'test',
+                        'XM_INVESTOR_PASSWORD':'test-only'},clear=True),\
+             patch.object(cloud_xm_probe.Path,'is_file',return_value=True):
+            result=cloud_xm_probe.collect()
+        self.assertEqual(result['status'],'CLOUD_RUNTIME_READY')
+        mt.initialize.assert_not_called()
+
+    def test_direct_initialize_failure_does_not_read_quotes(self):
+        mt=Mock();mt.initialize.return_value=False
+        mt.last_error.return_value=(-10005,'private error detail')
+        with patch.dict('sys.modules',{'MetaTrader5':mt}),\
+             patch.dict('os.environ',{'XM_TERMINAL_PATH':'test-terminal',
+                        'BROKER_CLOUD_APPROVED':'1','XM_INITIALIZE_WITH_LOGIN':'1',
+                        'XM_DEMO_LOGIN':'123','XM_DEMO_SERVER':'test',
+                        'XM_INVESTOR_PASSWORD':'test-only'},clear=True),\
+             patch.object(cloud_xm_probe.Path,'is_file',return_value=True),\
+             patch.object(cloud_xm_probe,'probe') as quote_probe:
+            result=cloud_xm_probe.collect()
+        self.assertEqual(result['reason'],'initialization_with_login_not_verified')
+        mt.initialize.assert_called_once_with('test-terminal',timeout=60000,
+            portable=True,login=123,server='test',password='test-only')
+        mt.login.assert_not_called();quote_probe.assert_not_called()
+        self.assertNotIn('test-only',str(result))
+        self.assertNotIn('private error detail',str(result))
+
     def test_no_authentication_before_specific_approval(self):
         mt=Mock();mt.__version__='test'
         with patch.dict('sys.modules',{'MetaTrader5':mt}),\
