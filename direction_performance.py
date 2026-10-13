@@ -2,6 +2,7 @@
 from copy import deepcopy
 from datetime import datetime, timedelta, timezone
 import math
+from direction_filter import comparison
 
 HORIZONS = (5, 10, 15)
 LIMIT = 500
@@ -14,7 +15,7 @@ def stamp(value):
     return parsed.astimezone(timezone.utc)
 
 
-def add_alert(state, direction, delivered, reference_close, reference_price):
+def add_alert(state, direction, delivered, reference_close, reference_price, shadow_filter=None):
     if direction not in ('UP', 'DOWN') or not math.isfinite(reference_price) or reference_price <= 0:
         raise ValueError('invalid_tracking_reference')
     if delivered < reference_close:
@@ -25,6 +26,8 @@ def add_alert(state, direction, delivered, reference_close, reference_price):
                         reference_close_utc=reference_close.isoformat(),
                         reference_price=reference_price,
                         reference_age_seconds=(delivered - reference_close).total_seconds(), outcomes={}))
+    if shadow_filter is not None:
+        records[-1]['shadow_filter'] = deepcopy(shadow_filter)
     result['performance']['alerts'] = records[-LIMIT:]
     return result
 
@@ -79,4 +82,6 @@ def update_outcomes(state, rows, now):
                 favourable_pct=round(100 * favourable / len(measured), 2) if measured else None)
         result['performance'].update(schema=1, summary=summary,
             scope='Forward completed-5m reference-price movement after confirmed delivery; no execution costs or fills. Up to 500 latest delivered alerts. Not predictive accuracy or profitability.')
+        if any('shadow_filter' in r for r in records):
+            result['performance']['shadow_comparison'] = {str(m): comparison(records, m) for m in HORIZONS}
     return result

@@ -56,6 +56,14 @@ class CloudDirectionTests(unittest.TestCase):
         self.assertEqual(record['delivered_utc'], self.now.isoformat())
         self.assertEqual(record['outcomes'], {})
 
+    def test_shadow_rejection_does_not_suppress_live_alert(self):
+        with patch('cloud_direction.review_filter', return_value={
+                'version':'ema20_slope3_tr14_v1', 'status':'WOULD_SUPPRESS', 'mode':'SHADOW_ONLY'}):
+            _, deliver, save = self.invoke()
+        deliver.assert_called_once()
+        self.assertEqual(save.call_args.args[0]['performance']['alerts'][0]['shadow_filter']['status'],
+                         'WOULD_SUPPRESS')
+
     def test_tracking_updates_without_duplicate_delivery(self):
         state = dict(utc_date='2026-10-13', last_notified='UP', performance={'alerts': [
             dict(direction='UP', delivered_utc=(self.now-timedelta(minutes=16)).isoformat(),

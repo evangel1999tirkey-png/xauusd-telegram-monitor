@@ -10,6 +10,7 @@ from zoneinfo import ZoneInfo
 from candle_feed import fetch
 from signal_rules import context_direction
 from direction_performance import add_alert, update_outcomes
+from direction_filter import review as review_filter
 
 UTC = timezone.utc
 IST = ZoneInfo('Asia/Kolkata')
@@ -130,6 +131,9 @@ def run(now, load=read_state, save=write_state, deliver=send, feed=fetch):
         print('Direction unchanged: ' + direction + '; no notification.')
         return 0
     message = direction + ' direction — 5m technical lean (' + checked.astimezone(IST).strftime('%H:%M IST') + ')'
+    # Calculate from the same completed candles BEFORE delivery. Its result
+    # is recorded for comparison only and does not suppress any live alert.
+    shadow_filter = review_filter(rows, direction)
     try:
         deliver(message)
     except Exception:
@@ -143,7 +147,7 @@ def run(now, load=read_state, save=write_state, deliver=send, feed=fetch):
                        notified_ist=checked.astimezone(IST).isoformat(),
                        delivered_ist=delivered.astimezone(IST).isoformat(),
                        source='Twelve Data XAU/USD 5m')
-        updated = add_alert(updated, direction, delivered, close, rows[-1]['c'])
+        updated = add_alert(updated, direction, delivered, close, rows[-1]['c'], shadow_filter)
         updated = update_outcomes(updated, rows, delivered)
         save(updated, sha)
     except Exception:
