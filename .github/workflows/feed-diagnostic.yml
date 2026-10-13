@@ -20,4 +20,5 @@ jobs:
         env:
           TWELVE_DATA_API_KEY: ${{ secrets.TWELVE_DATA_API_KEY }}
         run: python feed_diagnostic.py
-# Reverify Treasury freshness after the 12 October cash-bond holiday: 13 October 2026.
+      - name: Verify free official CPI index history without sending signals
+        run: python official_bls.py
