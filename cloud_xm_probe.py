@@ -25,12 +25,18 @@ def collect():
                 'missing_secret_names':missing}
     try:
         expected_login=int(login)
-        if not mt.initialize(terminal,timeout=60000,portable=True):
+        direct=os.environ.get('XM_INITIALIZE_WITH_LOGIN')=='1'
+        kwargs={'timeout':60000,'portable':True}
+        if direct:
+            # Documented SDK form: no password file, command-line argument or log.
+            kwargs.update(login=expected_login,server=server,password=password)
+        if not mt.initialize(terminal,**kwargs):
             error=mt.last_error()
             code=error[0] if isinstance(error,tuple) and type(error[0]) is int else None
-            return {'status':'BROKER_CLOUD_UNCONNECTED','reason':'terminal_startup_not_verified',
+            return {'status':'BROKER_CLOUD_UNCONNECTED',
+                    'reason':'initialization_with_login_not_verified' if direct else 'terminal_startup_not_verified',
                     'sdk_error_code':code}
-        if not mt.login(expected_login,server=server,password=password,timeout=30000):
+        if not direct and not mt.login(expected_login,server=server,password=password,timeout=30000):
             error=mt.last_error()
             code=error[0] if isinstance(error,tuple) and type(error[0]) is int else None
             return {'status':'BROKER_CLOUD_UNCONNECTED','reason':'broker_authentication_not_verified',
