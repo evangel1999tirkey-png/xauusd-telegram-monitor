@@ -3,6 +3,7 @@ import json
 import math
 import urllib.request
 from datetime import datetime,timezone
+from zoneinfo import ZoneInfo
 
 SOURCE='https://api.bls.gov/publicAPI/v2/timeseries/data/'
 SERIES={'CUSR0000SA0':'headline_seasonally_adjusted',
@@ -12,6 +13,8 @@ SERIES={'CUSR0000SA0':'headline_seasonally_adjusted',
 
 
 def parse(payload,now):
+    if now.tzinfo is None:raise ValueError('bls_check_timezone_missing')
+    now=now.astimezone(timezone.utc)
     if payload.get('status')!='REQUEST_SUCCEEDED' or payload.get('message'):
         raise ValueError('bls_request_not_verified')
     results=payload.get('Results')
@@ -75,6 +78,21 @@ def fetch(now=None):
         if response.status!=200:raise ValueError('bls_http_unverified')
         payload=json.load(response)
     return parse(payload,now)
+
+
+def context(now,cpi_window=False):
+    # Normally twelve refresh windows/day, plus a listed CPI event window.
+    # No retries or every-five-minute API polling. Diagnostics share its quota.
+    if not cpi_window and not (now.hour%2==0 and now.minute<5):
+        return 'BLS CPI index history unrefreshed this check; release actual/consensus/revision confirmation incomplete.'
+    try:
+        result=fetch(now)
+        checked=now.astimezone(ZoneInfo('Asia/Kolkata')).strftime('%d %b %H:%M IST')
+        return ('BLS official CPI index history retrieved '+checked+'; latest period '
+                +result['latest_period']+'. Monthly index levels only, not current release confirmation; '
+                +'publication time, market consensus and release revisions unverified. '+SOURCE)
+    except Exception:
+        return 'BLS CPI index API unavailable/invalid this check; release confirmation incomplete.'
 
 
 if __name__=='__main__':
