@@ -1,7 +1,8 @@
 import copy
 import unittest
+from unittest.mock import patch
 from datetime import datetime,timezone
-from official_bls import SERIES,parse
+from official_bls import SERIES,parse,context
 
 NOW=datetime(2026,10,13,tzinfo=timezone.utc)
 def fixture():
@@ -11,6 +12,15 @@ def fixture():
                 } for k in SERIES]}}
 
 class OfficialBlsTests(unittest.TestCase):
+    def test_refresh_window_and_failed_fetch_do_not_claim_confirmation(self):
+        with patch('official_bls.fetch') as source:
+            self.assertIn('unrefreshed',context(NOW.replace(hour=9,minute=17)))
+            source.assert_not_called()
+            source.side_effect=ValueError('not verified')
+            self.assertIn('unavailable/invalid',context(NOW.replace(hour=10,minute=2)))
+            self.assertIn('unavailable/invalid',context(NOW.replace(hour=9,minute=17),True))
+        with self.assertRaises(ValueError):parse(fixture(),NOW.replace(tzinfo=None))
+
     def test_explicit_official_missing_history_remains_missing(self):
         p=fixture()
         p['Results']['series'][0]['data'].append({'year':'2025','period':'M10',
