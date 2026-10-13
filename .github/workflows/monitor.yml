@@ -1,10 +1,6 @@
 name: Gold Telegram monitor
+# Scheduled monitoring paused at the user's request. Manual runs remain available.
 on:
-  schedule:
-    - cron: '2-57/5 * * * *'
-  push:
-    paths:
-      - '.github/workflows/monitor.yml'
   workflow_dispatch:
     inputs:
       test_delivery:
