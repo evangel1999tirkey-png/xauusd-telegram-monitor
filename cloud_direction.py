@@ -9,6 +9,7 @@ from datetime import datetime, timedelta, timezone
 from zoneinfo import ZoneInfo
 from candle_feed import fetch
 from signal_rules import context_direction
+from direction_performance import add_alert, update_outcomes
 
 UTC = timezone.utc
 IST = ZoneInfo('Asia/Kolkata')
@@ -62,11 +63,8 @@ def read_state():
     return state, result['sha']
 
 
-def write_state(direction, now, sha):
-    state = dict(utc_date=now.date().isoformat(), last_notified=direction,
-                 notified_ist=now.astimezone(IST).isoformat(),
-                 source='Twelve Data XAU/USD 5m')
-    body = dict(message='Record delivered cloud direction [skip ci]', branch='main',
+def write_state(state, sha):
+    body = dict(message='Record cloud direction outcomes [skip ci]', branch='main',
                 content=base64.b64encode(json.dumps(state, indent=2).encode()).decode())
     if sha:
         body['sha'] = sha
@@ -110,6 +108,20 @@ def run(now, load=read_state, save=write_state, deliver=send, feed=fetch):
         # Provider URLs may contain a key. Never print exception details.
         print('DATA UNAVAILABLE: cloud gold candles invalid, unavailable or stale; no notification.')
         return 0
+    try:
+        updated = update_outcomes(state, rows, checked)
+    except Exception:
+        print('Performance record invalid; no notification or state overwrite.')
+        return 1
+    if not direction or (state.get('utc_date') == checked.date().isoformat()
+                         and state.get('last_notified') == direction):
+        if updated != state:
+            try:
+                save(updated, sha)
+                print('Forward alert outcomes saved; direction rule unchanged.')
+            except Exception:
+                print('Outcome state write failed; no notification.')
+                return 1
     if not direction:
         print('No clear fresh 5m direction; no notification.')
         return 0
@@ -126,7 +138,14 @@ def run(now, load=read_state, save=write_state, deliver=send, feed=fetch):
     print(message)
     print('Telegram delivery confirmed.')
     try:
-        save(direction, checked, sha)
+        delivered = datetime.now(UTC)
+        updated.update(utc_date=checked.date().isoformat(), last_notified=direction,
+                       notified_ist=checked.astimezone(IST).isoformat(),
+                       delivered_ist=delivered.astimezone(IST).isoformat(),
+                       source='Twelve Data XAU/USD 5m')
+        updated = add_alert(updated, direction, delivered, close, rows[-1]['c'])
+        updated = update_outcomes(updated, rows, delivered)
+        save(updated, sha)
     except Exception:
         print('STATE WRITE FAILED after confirmed delivery; duplicate possible on next run.')
         return 1
