@@ -7,6 +7,7 @@ from email.utils import parsedate_to_datetime
 from zoneinfo import ZoneInfo
 from official_surveys import context as official_survey_context
 from official_bls import context as official_bls_context
+from consensus_reference import context as named_consensus_context
 
 CALENDAR = 'https://nfs.faireconomy.media/ff_calendar_thisweek.json'
 FEEDS = {
@@ -100,6 +101,7 @@ def context(now):
             lines.append(name + ' release feed unavailable or dates unverified.')
     lines.append(official_survey_context(now,survey_window))
     lines.append(official_bls_context(now,cpi_window))
+    lines.append(named_consensus_context(now))
     lines.append(treasury_context(now))
     lines.append('RSS is publication context, not consensus/revision analysis, live yield reaction or complete news coverage.')
     return '\n'.join(lines)
