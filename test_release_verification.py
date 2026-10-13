@@ -30,5 +30,13 @@ class ReleaseChecks(unittest.TestCase):
         self.assertFalse(result['official_actual_verified'])
         self.assertNotIn('surprise_vs_named_market_survey',result)
 
+    def test_future_actual_and_nonfinite_or_boolean_consensus_rejected(self):
+        result=verify_row(self.row,{'records':[self.ref]},datetime(2026,10,7,tzinfo=timezone.utc))
+        self.assertFalse(result['official_actual_verified'])
+        for value in (True,float('nan')):
+            ref={**self.ref,'market_consensus':value}
+            result=verify_row(self.row,{'records':[ref]},datetime(2026,10,12,tzinfo=timezone.utc))
+            self.assertFalse(result['consensus_verified'])
+
 
 if __name__=='__main__':unittest.main()
