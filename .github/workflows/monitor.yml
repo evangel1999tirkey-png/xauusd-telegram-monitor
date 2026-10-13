@@ -1,14 +1,16 @@
-name: Gold Telegram monitor
-# Scheduled monitoring paused at the user's request. Manual runs remain available.
+name: Gold UP DOWN Telegram direction
 on:
+  schedule:
+    - cron: '2-57/5 * * * *'
   workflow_dispatch:
-    inputs:
-      test_delivery:
-        description: Send a connection test without a trading signal
-        type: boolean
-        default: true
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/monitor.yml'
+      - 'cloud_direction.py'
+      - 'test_cloud_direction.py'
 permissions:
-  contents: read
+  contents: write
 concurrency:
   group: gold-monitor
   cancel-in-progress: false
@@ -21,11 +23,12 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
-      - name: Check and notify
+      - name: Direction delivery guards
+        run: python -m unittest test_cloud_direction -v
+      - name: Check direction and notify changes
         env:
           TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
           TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
-          OANDA_PRACTICE_TOKEN: ${{ secrets.OANDA_PRACTICE_TOKEN }}
           TWELVE_DATA_API_KEY: ${{ secrets.TWELVE_DATA_API_KEY }}
-          TEST_DELIVERY: ${{ github.event_name == 'workflow_dispatch' && inputs.test_delivery && '1' || '0' }}
-        run: python monitor.py
+          GITHUB_TOKEN: ${{ github.token }}
+        run: python cloud_direction.py
