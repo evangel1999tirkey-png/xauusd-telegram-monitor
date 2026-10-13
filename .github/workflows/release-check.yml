@@ -1,0 +1,29 @@
+name: Release evidence guard checks
+on:
+  push:
+    paths:
+      - '.github/workflows/release-check.yml'
+      - 'consensus_reference.py'
+      - 'verified_consensus.json'
+      - 'release_verification.py'
+      - 'test_consensus_reference.py'
+      - 'test_release_verification.py'
+      - 'official_bls.py'
+      - 'test_official_bls.py'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  guards:
+    runs-on: ubuntu-latest
+    timeout-minutes: 2
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Check release, survey identity and unavailable-data refusal
+        run: python -m unittest test_consensus_reference test_release_verification test_official_bls -q
+# No credentials, broker connection, market polling, Telegram or orders.
