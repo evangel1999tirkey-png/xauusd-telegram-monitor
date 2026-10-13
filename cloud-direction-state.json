@@ -1,6 +1,153 @@
 {
   "utc_date": "2026-10-13",
-  "last_notified": "DOWN",
-  "notified_ist": "2026-10-13T19:39:45.670604+05:30",
-  "source": "Twelve Data XAU/USD 5m"
+  "last_notified": "UP",
+  "notified_ist": "2026-10-14T00:06:29.676035+05:30",
+  "source": "Twelve Data XAU/USD 5m",
+  "delivered_ist": "2026-10-14T00:06:30.241709+05:30",
+  "performance": {
+    "alerts": [
+      {
+        "direction": "UP",
+        "delivered_utc": "2026-10-13T18:36:30.241709+00:00",
+        "reference_close_utc": "2026-10-13T18:35:00+00:00",
+        "reference_price": 4160.38445,
+        "reference_age_seconds": 90.241709,
+        "outcomes": {},
+        "shadow_filter": {
+          "version": "ema20_slope3_tr14_v1",
+          "mode": "SHADOW_ONLY",
+          "threshold": 0.1,
+          "status": "WOULD_KEEP",
+          "slope_to_range": 0.23980608557550034,
+          "mean_true_range14": 3.797298571428525
+        }
+      }
+    ],
+    "schema": 1,
+    "summary": {
+      "5": {
+        "measured": 0,
+        "favourable": 0,
+        "adverse": 0,
+        "flat": 0,
+        "unavailable": 0,
+        "pending": 1,
+        "favourable_pct": null
+      },
+      "10": {
+        "measured": 0,
+        "favourable": 0,
+        "adverse": 0,
+        "flat": 0,
+        "unavailable": 0,
+        "pending": 1,
+        "favourable_pct": null
+      },
+      "15": {
+        "measured": 0,
+        "favourable": 0,
+        "adverse": 0,
+        "flat": 0,
+        "unavailable": 0,
+        "pending": 1,
+        "favourable_pct": null
+      }
+    },
+    "scope": "Forward completed-5m reference-price movement after confirmed delivery; no execution costs or fills. Up to 500 latest delivered alerts. Not predictive accuracy or profitability.",
+    "shadow_comparison": {
+      "5": {
+        "version": "ema20_slope3_tr14_v1",
+        "mode": "SHADOW_ONLY",
+        "baseline": {
+          "measured": 0,
+          "favourable": 0,
+          "adverse": 0,
+          "flat": 0,
+          "favourable_pct": null
+        },
+        "would_keep": {
+          "measured": 0,
+          "favourable": 0,
+          "adverse": 0,
+          "flat": 0,
+          "favourable_pct": null
+        },
+        "would_suppress": {
+          "measured": 0,
+          "favourable": 0,
+          "adverse": 0,
+          "flat": 0,
+          "favourable_pct": null
+        },
+        "measured_retained_pct": null,
+        "observed_difference_percentage_points": null,
+        "classified_alerts": 1,
+        "pending": 1,
+        "unavailable": 0,
+        "interpretation": "Descriptive fixed-filter comparison only; not proven improvement or an independently executed filtered strategy."
+      },
+      "10": {
+        "version": "ema20_slope3_tr14_v1",
+        "mode": "SHADOW_ONLY",
+        "baseline": {
+          "measured": 0,
+          "favourable": 0,
+          "adverse": 0,
+          "flat": 0,
+          "favourable_pct": null
+        },
+        "would_keep": {
+          "measured": 0,
+          "favourable": 0,
+          "adverse": 0,
+          "flat": 0,
+          "favourable_pct": null
+        },
+        "would_suppress": {
+          "measured": 0,
+          "favourable": 0,
+          "adverse": 0,
+          "flat": 0,
+          "favourable_pct": null
+        },
+        "measured_retained_pct": null,
+        "observed_difference_percentage_points": null,
+        "classified_alerts": 1,
+        "pending": 1,
+        "unavailable": 0,
+        "interpretation": "Descriptive fixed-filter comparison only; not proven improvement or an independently executed filtered strategy."
+      },
+      "15": {
+        "version": "ema20_slope3_tr14_v1",
+        "mode": "SHADOW_ONLY",
+        "baseline": {
+          "measured": 0,
+          "favourable": 0,
+          "adverse": 0,
+          "flat": 0,
+          "favourable_pct": null
+        },
+        "would_keep": {
+          "measured": 0,
+          "favourable": 0,
+          "adverse": 0,
+          "flat": 0,
+          "favourable_pct": null
+        },
+        "would_suppress": {
+          "measured": 0,
+          "favourable": 0,
+          "adverse": 0,
+          "flat": 0,
+          "favourable_pct": null
+        },
+        "measured_retained_pct": null,
+        "observed_difference_percentage_points": null,
+        "classified_alerts": 1,
+        "pending": 1,
+        "unavailable": 0,
+        "interpretation": "Descriptive fixed-filter comparison only; not proven improvement or an independently executed filtered strategy."
+      }
+    }
+  }
 }
