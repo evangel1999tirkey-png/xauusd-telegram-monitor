@@ -43,6 +43,7 @@ jobs:
           XM_DEMO_LOGIN: ${{ secrets.XM_DEMO_LOGIN }}
           XM_DEMO_SERVER: ${{ secrets.XM_DEMO_SERVER }}
           XM_INVESTOR_PASSWORD: ${{ secrets.XM_INVESTOR_PASSWORD }}
+          XM_INITIALIZE_WITH_LOGIN: '1'
           XM_SERVER_OFFSET_SECONDS: '10800'
-          XM_OFFSET_VERIFIED_DATE: '2026-10-12'
+          XM_OFFSET_VERIFIED_DATE: '2026-10-13'
         run: python cloud_xm_probe.py
