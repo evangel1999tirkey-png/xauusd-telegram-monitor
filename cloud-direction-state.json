@@ -1,9 +1,9 @@
 {
   "utc_date": "2026-10-14",
-  "last_notified": "UP",
-  "notified_ist": "2026-10-14T14:04:52.657697+05:30",
+  "last_notified": "DOWN",
+  "notified_ist": "2026-10-14T14:38:56.201574+05:30",
   "source": "Twelve Data XAU/USD 5m",
-  "delivered_ist": "2026-10-14T14:04:53.260517+05:30",
+  "delivered_ist": "2026-10-14T14:38:56.661916+05:30",
   "performance": {
     "alerts": [
       {
@@ -381,7 +381,32 @@
         "reference_close_utc": "2026-10-14T08:30:00+00:00",
         "reference_price": 4151.16309,
         "reference_age_seconds": 293.260517,
-        "outcomes": {},
+        "outcomes": {
+          "5": {
+            "status": "MEASURED",
+            "evaluated_close_utc": "2026-10-14T08:40:00+00:00",
+            "evaluated_price": 4145.26262,
+            "minutes_after_delivery": 5.112,
+            "signed_change_usd_per_oz": -5.90047,
+            "outcome": "ADVERSE"
+          },
+          "10": {
+            "status": "MEASURED",
+            "evaluated_close_utc": "2026-10-14T08:45:00+00:00",
+            "evaluated_price": 4144.32265,
+            "minutes_after_delivery": 10.112,
+            "signed_change_usd_per_oz": -6.84044,
+            "outcome": "ADVERSE"
+          },
+          "15": {
+            "status": "MEASURED",
+            "evaluated_close_utc": "2026-10-14T08:50:00+00:00",
+            "evaluated_price": 4143.20808,
+            "minutes_after_delivery": 15.112,
+            "signed_change_usd_per_oz": -7.95501,
+            "outcome": "ADVERSE"
+          }
+        },
         "shadow_filter": {
           "version": "ema20_slope3_tr14_v1",
           "mode": "SHADOW_ONLY",
@@ -390,36 +415,52 @@
           "slope_to_range": 0.23044142986283161,
           "mean_true_range14": 2.8233164285716157
         }
+      },
+      {
+        "direction": "DOWN",
+        "delivered_utc": "2026-10-14T09:08:56.661916+00:00",
+        "reference_close_utc": "2026-10-14T09:05:00+00:00",
+        "reference_price": 4143.39427,
+        "reference_age_seconds": 236.661916,
+        "outcomes": {},
+        "shadow_filter": {
+          "version": "ema20_slope3_tr14_v1",
+          "mode": "SHADOW_ONLY",
+          "threshold": 0.1,
+          "status": "WOULD_KEEP",
+          "slope_to_range": 0.5288221523742133,
+          "mean_true_range14": 2.853245714285744
+        }
       }
     ],
     "schema": 1,
     "summary": {
       "5": {
-        "measured": 9,
+        "measured": 10,
         "favourable": 7,
-        "adverse": 2,
+        "adverse": 3,
         "flat": 0,
         "unavailable": 0,
         "pending": 1,
-        "favourable_pct": 77.78
+        "favourable_pct": 70.0
       },
       "10": {
-        "measured": 9,
+        "measured": 10,
         "favourable": 6,
-        "adverse": 3,
+        "adverse": 4,
         "flat": 0,
         "unavailable": 0,
         "pending": 1,
-        "favourable_pct": 66.67
+        "favourable_pct": 60.0
       },
       "15": {
-        "measured": 9,
+        "measured": 10,
         "favourable": 6,
-        "adverse": 3,
+        "adverse": 4,
         "flat": 0,
         "unavailable": 0,
         "pending": 1,
-        "favourable_pct": 66.67
+        "favourable_pct": 60.0
       }
     },
     "scope": "Forward completed-5m reference-price movement after confirmed delivery; no execution costs or fills. Up to 500 latest delivered alerts. Not predictive accuracy or profitability.",
@@ -428,18 +469,18 @@
         "version": "ema20_slope3_tr14_v1",
         "mode": "SHADOW_ONLY",
         "baseline": {
-          "measured": 9,
+          "measured": 10,
           "favourable": 7,
-          "adverse": 2,
+          "adverse": 3,
           "flat": 0,
-          "favourable_pct": 77.77777777777777
+          "favourable_pct": 70.0
         },
         "would_keep": {
-          "measured": 6,
+          "measured": 7,
           "favourable": 4,
-          "adverse": 2,
+          "adverse": 3,
           "flat": 0,
-          "favourable_pct": 66.66666666666667
+          "favourable_pct": 57.142857142857146
         },
         "would_suppress": {
           "measured": 3,
@@ -448,9 +489,9 @@
           "flat": 0,
           "favourable_pct": 100.0
         },
-        "measured_retained_pct": 66.66666666666667,
-        "observed_difference_percentage_points": -11.1111111111111,
-        "classified_alerts": 10,
+        "measured_retained_pct": 70.0,
+        "observed_difference_percentage_points": -12.857142857142854,
+        "classified_alerts": 11,
         "pending": 1,
         "unavailable": 0,
         "interpretation": "Descriptive fixed-filter comparison only; not proven improvement or an independently executed filtered strategy."
@@ -459,18 +500,18 @@
         "version": "ema20_slope3_tr14_v1",
         "mode": "SHADOW_ONLY",
         "baseline": {
-          "measured": 9,
+          "measured": 10,
           "favourable": 6,
-          "adverse": 3,
+          "adverse": 4,
           "flat": 0,
-          "favourable_pct": 66.66666666666667
+          "favourable_pct": 60.0
         },
         "would_keep": {
-          "measured": 6,
+          "measured": 7,
           "favourable": 3,
-          "adverse": 3,
+          "adverse": 4,
           "flat": 0,
-          "favourable_pct": 50.0
+          "favourable_pct": 42.857142857142854
         },
         "would_suppress": {
           "measured": 3,
@@ -479,9 +520,9 @@
           "flat": 0,
           "favourable_pct": 100.0
         },
-        "measured_retained_pct": 66.66666666666667,
-        "observed_difference_percentage_points": -16.66666666666667,
-        "classified_alerts": 10,
+        "measured_retained_pct": 70.0,
+        "observed_difference_percentage_points": -17.142857142857146,
+        "classified_alerts": 11,
         "pending": 1,
         "unavailable": 0,
         "interpretation": "Descriptive fixed-filter comparison only; not proven improvement or an independently executed filtered strategy."
@@ -490,18 +531,18 @@
         "version": "ema20_slope3_tr14_v1",
         "mode": "SHADOW_ONLY",
         "baseline": {
-          "measured": 9,
+          "measured": 10,
           "favourable": 6,
-          "adverse": 3,
+          "adverse": 4,
           "flat": 0,
-          "favourable_pct": 66.66666666666667
+          "favourable_pct": 60.0
         },
         "would_keep": {
-          "measured": 6,
+          "measured": 7,
           "favourable": 3,
-          "adverse": 3,
+          "adverse": 4,
           "flat": 0,
-          "favourable_pct": 50.0
+          "favourable_pct": 42.857142857142854
         },
         "would_suppress": {
           "measured": 3,
@@ -510,9 +551,9 @@
           "flat": 0,
           "favourable_pct": 100.0
         },
-        "measured_retained_pct": 66.66666666666667,
-        "observed_difference_percentage_points": -16.66666666666667,
-        "classified_alerts": 10,
+        "measured_retained_pct": 70.0,
+        "observed_difference_percentage_points": -17.142857142857146,
+        "classified_alerts": 11,
         "pending": 1,
         "unavailable": 0,
         "interpretation": "Descriptive fixed-filter comparison only; not proven improvement or an independently executed filtered strategy."
