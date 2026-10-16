@@ -1242,7 +1242,32 @@
         "reference_close_utc": "2026-10-16T06:00:00+00:00",
         "reference_price": 4175.25221,
         "reference_age_seconds": 181.640358,
-        "outcomes": {},
+        "outcomes": {
+          "5": {
+            "status": "MEASURED",
+            "evaluated_close_utc": "2026-10-16T06:10:00+00:00",
+            "evaluated_price": 4173.02246,
+            "minutes_after_delivery": 6.973,
+            "signed_change_usd_per_oz": -2.22975,
+            "outcome": "ADVERSE"
+          },
+          "10": {
+            "status": "MEASURED",
+            "evaluated_close_utc": "2026-10-16T06:15:00+00:00",
+            "evaluated_price": 4171.78378,
+            "minutes_after_delivery": 11.973,
+            "signed_change_usd_per_oz": -3.46843,
+            "outcome": "ADVERSE"
+          },
+          "15": {
+            "status": "MEASURED",
+            "evaluated_close_utc": "2026-10-16T06:20:00+00:00",
+            "evaluated_price": 4171.84578,
+            "minutes_after_delivery": 16.973,
+            "signed_change_usd_per_oz": -3.40643,
+            "outcome": "ADVERSE"
+          }
+        },
         "shadow_filter": {
           "version": "ema20_slope3_tr14_v1",
           "mode": "SHADOW_ONLY",
@@ -1256,31 +1281,31 @@
     "schema": 1,
     "summary": {
       "5": {
-        "measured": 30,
+        "measured": 31,
         "favourable": 17,
-        "adverse": 13,
+        "adverse": 14,
         "flat": 0,
         "unavailable": 0,
-        "pending": 1,
-        "favourable_pct": 56.67
+        "pending": 0,
+        "favourable_pct": 54.84
       },
       "10": {
-        "measured": 30,
+        "measured": 31,
         "favourable": 17,
-        "adverse": 13,
+        "adverse": 14,
         "flat": 0,
         "unavailable": 0,
-        "pending": 1,
-        "favourable_pct": 56.67
+        "pending": 0,
+        "favourable_pct": 54.84
       },
       "15": {
-        "measured": 30,
+        "measured": 31,
         "favourable": 17,
-        "adverse": 13,
+        "adverse": 14,
         "flat": 0,
         "unavailable": 0,
-        "pending": 1,
-        "favourable_pct": 56.67
+        "pending": 0,
+        "favourable_pct": 54.84
       }
     },
     "scope": "Forward completed-5m reference-price movement after confirmed delivery; no execution costs or fills. Up to 500 latest delivered alerts. Not predictive accuracy or profitability.",
@@ -1289,11 +1314,11 @@
         "version": "ema20_slope3_tr14_v1",
         "mode": "SHADOW_ONLY",
         "baseline": {
-          "measured": 30,
+          "measured": 31,
           "favourable": 17,
-          "adverse": 13,
+          "adverse": 14,
           "flat": 0,
-          "favourable_pct": 56.666666666666664
+          "favourable_pct": 54.83870967741935
         },
         "would_keep": {
           "measured": 24,
@@ -1303,16 +1328,16 @@
           "favourable_pct": 45.833333333333336
         },
         "would_suppress": {
-          "measured": 6,
+          "measured": 7,
           "favourable": 6,
-          "adverse": 0,
+          "adverse": 1,
           "flat": 0,
-          "favourable_pct": 100.0
+          "favourable_pct": 85.71428571428571
         },
-        "measured_retained_pct": 80.0,
-        "observed_difference_percentage_points": -10.833333333333329,
+        "measured_retained_pct": 77.41935483870968,
+        "observed_difference_percentage_points": -9.005376344086017,
         "classified_alerts": 31,
-        "pending": 1,
+        "pending": 0,
         "unavailable": 0,
         "interpretation": "Descriptive fixed-filter comparison only; not proven improvement or an independently executed filtered strategy."
       },
@@ -1320,11 +1345,11 @@
         "version": "ema20_slope3_tr14_v1",
         "mode": "SHADOW_ONLY",
         "baseline": {
-          "measured": 30,
+          "measured": 31,
           "favourable": 17,
-          "adverse": 13,
+          "adverse": 14,
           "flat": 0,
-          "favourable_pct": 56.666666666666664
+          "favourable_pct": 54.83870967741935
         },
         "would_keep": {
           "measured": 24,
@@ -1334,16 +1359,16 @@
           "favourable_pct": 50.0
         },
         "would_suppress": {
-          "measured": 6,
+          "measured": 7,
           "favourable": 5,
-          "adverse": 1,
+          "adverse": 2,
           "flat": 0,
-          "favourable_pct": 83.33333333333333
+          "favourable_pct": 71.42857142857143
         },
-        "measured_retained_pct": 80.0,
-        "observed_difference_percentage_points": -6.666666666666664,
+        "measured_retained_pct": 77.41935483870968,
+        "observed_difference_percentage_points": -4.838709677419352,
         "classified_alerts": 31,
-        "pending": 1,
+        "pending": 0,
         "unavailable": 0,
         "interpretation": "Descriptive fixed-filter comparison only; not proven improvement or an independently executed filtered strategy."
       },
@@ -1351,11 +1376,11 @@
         "version": "ema20_slope3_tr14_v1",
         "mode": "SHADOW_ONLY",
         "baseline": {
-          "measured": 30,
+          "measured": 31,
           "favourable": 17,
-          "adverse": 13,
+          "adverse": 14,
           "flat": 0,
-          "favourable_pct": 56.666666666666664
+          "favourable_pct": 54.83870967741935
         },
         "would_keep": {
           "measured": 24,
@@ -1365,16 +1390,16 @@
           "favourable_pct": 54.166666666666664
         },
         "would_suppress": {
-          "measured": 6,
+          "measured": 7,
           "favourable": 4,
-          "adverse": 2,
+          "adverse": 3,
           "flat": 0,
-          "favourable_pct": 66.66666666666667
+          "favourable_pct": 57.142857142857146
         },
-        "measured_retained_pct": 80.0,
-        "observed_difference_percentage_points": -2.5,
+        "measured_retained_pct": 77.41935483870968,
+        "observed_difference_percentage_points": -0.672043010752688,
         "classified_alerts": 31,
-        "pending": 1,
+        "pending": 0,
         "unavailable": 0,
         "interpretation": "Descriptive fixed-filter comparison only; not proven improvement or an independently executed filtered strategy."
       }
