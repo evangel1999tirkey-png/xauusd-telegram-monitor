@@ -13,6 +13,8 @@ on:
       - 'test_direction_performance.py'
       - 'direction_filter.py'
       - 'test_direction_filter.py'
+      - 'shadow_fifteen.py'
+      - 'test_shadow_fifteen.py'
 permissions:
   contents: write
 concurrency:
@@ -28,7 +30,7 @@ jobs:
         with:
           python-version: '3.12'
       - name: Direction delivery guards
-        run: python -m unittest test_cloud_direction test_direction_performance test_direction_filter -v
+        run: python -m unittest test_cloud_direction test_direction_performance test_direction_filter test_shadow_fifteen -v
       - name: Check direction and notify changes
         env:
           TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}

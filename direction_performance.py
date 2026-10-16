@@ -3,6 +3,7 @@ from copy import deepcopy
 from datetime import datetime, timedelta, timezone
 import math
 from direction_filter import comparison
+from shadow_fifteen import summarize as summarize_fifteen
 
 HORIZONS = (5, 10, 15)
 LIMIT = 500
@@ -84,4 +85,6 @@ def update_outcomes(state, rows, now):
             scope='Forward completed-5m reference-price movement after confirmed delivery; no execution costs or fills. Up to 500 latest delivered alerts. Not predictive accuracy or profitability.')
         if any('shadow_filter' in r for r in records):
             result['performance']['shadow_comparison'] = {str(m): comparison(records, m) for m in HORIZONS}
+        if any('shadow_15m' in r for r in records):
+            result['performance']['shadow_15m_comparison'] = {str(m): summarize_fifteen(records, m) for m in HORIZONS}
     return result

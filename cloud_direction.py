@@ -11,6 +11,7 @@ from candle_feed import fetch
 from signal_rules import context_direction
 from direction_performance import add_alert, update_outcomes
 from direction_filter import review as review_filter
+from shadow_fifteen import collect_after_delivery
 
 UTC = timezone.utc
 IST = ZoneInfo('Asia/Kolkata')
@@ -91,7 +92,7 @@ def send(message):
         raise ValueError('delivery_not_confirmed')
 
 
-def run(now, load=read_state, save=write_state, deliver=send, feed=fetch):
+def run(now, load=read_state, save=write_state, deliver=send, feed=fetch, shadow_feed=None):
     if not session_open(now):
         print('Market session excluded; no notification.')
         return 0
@@ -154,8 +155,10 @@ def run(now, load=read_state, save=write_state, deliver=send, feed=fetch):
         print('STATE WRITE FAILED after confirmed delivery; duplicate possible on next run.')
         return 1
     print('Delivered direction state saved.')
+    if shadow_feed is not None:
+        collect_after_delivery(checked, delivered, direction, load, save, shadow_feed)
     return 0
 
 
 if __name__ == '__main__':
-    sys.exit(run(datetime.now(UTC)))
+    sys.exit(run(datetime.now(UTC), shadow_feed=fetch))

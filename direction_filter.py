@@ -33,14 +33,14 @@ def review(rows, direction):
         return result
 
 
-def comparison(records, horizon):
+def comparison(records, horizon, field='shadow_filter', version=VERSION):
     # Only contemporaneously classified alerts in this exact experiment are
     # compared. Older/unclassified alerts cannot inflate the baseline.
-    classified = [r for r in records if r.get('shadow_filter', {}).get('version') == VERSION
-                  and r['shadow_filter'].get('status') in ('WOULD_KEEP', 'WOULD_SUPPRESS')]
+    classified = [r for r in records if r.get(field, {}).get('version') == version
+                  and r[field].get('status') in ('WOULD_KEEP', 'WOULD_SUPPRESS')]
     measured = [r for r in classified if r.get('outcomes', {}).get(str(horizon), {}).get('status') == 'MEASURED']
-    kept = [r for r in measured if r['shadow_filter']['status'] == 'WOULD_KEEP']
-    suppressed = [r for r in measured if r['shadow_filter']['status'] == 'WOULD_SUPPRESS']
+    kept = [r for r in measured if r[field]['status'] == 'WOULD_KEEP']
+    suppressed = [r for r in measured if r[field]['status'] == 'WOULD_SUPPRESS']
 
     def counts(group):
         outcomes = [r['outcomes'][str(horizon)]['outcome'] for r in group]
@@ -52,7 +52,7 @@ def comparison(records, horizon):
     baseline, filtered = counts(measured), counts(kept)
     gain = (filtered['favourable_pct'] - baseline['favourable_pct']
             if kept and measured else None)
-    return dict(version=VERSION, mode='SHADOW_ONLY', baseline=baseline, would_keep=filtered,
+    return dict(version=version, mode='SHADOW_ONLY', baseline=baseline, would_keep=filtered,
                 would_suppress=counts(suppressed),
                 measured_retained_pct=100*len(kept)/len(measured) if measured else None,
                 observed_difference_percentage_points=gain,
