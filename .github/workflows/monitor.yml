@@ -17,6 +17,10 @@ on:
       - 'test_shadow_fifteen.py'
       - 'session_performance.py'
       - 'test_session_performance.py'
+      - 'setup_strategy.py'
+      - 'setup_watch.py'
+      - 'test_setup_strategy.py'
+      - 'test_signal_rules.py'
 permissions:
   contents: write
 concurrency:
@@ -40,3 +44,11 @@ jobs:
           TWELVE_DATA_API_KEY: ${{ secrets.TWELVE_DATA_API_KEY }}
           GITHUB_TOKEN: ${{ github.token }}
         run: python cloud_direction.py
+      - name: Observe session entry setups (no setup messages)
+        continue-on-error: true
+        env:
+          TWELVE_DATA_API_KEY: ${{ secrets.TWELVE_DATA_API_KEY }}
+          GITHUB_TOKEN: ${{ github.token }}
+        run: |
+          python -m unittest test_signal_rules test_setup_strategy -v
+          python setup_watch.py
