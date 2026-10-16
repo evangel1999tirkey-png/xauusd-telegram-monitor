@@ -1,9 +1,9 @@
 {
   "utc_date": "2026-10-16",
-  "last_notified": "DOWN",
-  "notified_ist": "2026-10-16T10:34:53.633661+05:30",
+  "last_notified": "UP",
+  "notified_ist": "2026-10-16T11:33:01.065813+05:30",
   "source": "Twelve Data XAU/USD 5m",
-  "delivered_ist": "2026-10-16T10:34:54.284466+05:30",
+  "delivered_ist": "2026-10-16T11:33:01.640358+05:30",
   "performance": {
     "alerts": [
       {
@@ -1235,6 +1235,22 @@
           "slope_to_range": 0.0692413702561837,
           "mean_true_range14": 3.7347357142858266
         }
+      },
+      {
+        "direction": "UP",
+        "delivered_utc": "2026-10-16T06:03:01.640358+00:00",
+        "reference_close_utc": "2026-10-16T06:00:00+00:00",
+        "reference_price": 4175.25221,
+        "reference_age_seconds": 181.640358,
+        "outcomes": {},
+        "shadow_filter": {
+          "version": "ema20_slope3_tr14_v1",
+          "mode": "SHADOW_ONLY",
+          "threshold": 0.1,
+          "status": "WOULD_SUPPRESS",
+          "slope_to_range": 0.012096075746461316,
+          "mean_true_range14": 3.1785992857144265
+        }
       }
     ],
     "schema": 1,
@@ -1245,7 +1261,7 @@
         "adverse": 13,
         "flat": 0,
         "unavailable": 0,
-        "pending": 0,
+        "pending": 1,
         "favourable_pct": 56.67
       },
       "10": {
@@ -1254,7 +1270,7 @@
         "adverse": 13,
         "flat": 0,
         "unavailable": 0,
-        "pending": 0,
+        "pending": 1,
         "favourable_pct": 56.67
       },
       "15": {
@@ -1263,7 +1279,7 @@
         "adverse": 13,
         "flat": 0,
         "unavailable": 0,
-        "pending": 0,
+        "pending": 1,
         "favourable_pct": 56.67
       }
     },
@@ -1295,8 +1311,8 @@
         },
         "measured_retained_pct": 80.0,
         "observed_difference_percentage_points": -10.833333333333329,
-        "classified_alerts": 30,
-        "pending": 0,
+        "classified_alerts": 31,
+        "pending": 1,
         "unavailable": 0,
         "interpretation": "Descriptive fixed-filter comparison only; not proven improvement or an independently executed filtered strategy."
       },
@@ -1326,8 +1342,8 @@
         },
         "measured_retained_pct": 80.0,
         "observed_difference_percentage_points": -6.666666666666664,
-        "classified_alerts": 30,
-        "pending": 0,
+        "classified_alerts": 31,
+        "pending": 1,
         "unavailable": 0,
         "interpretation": "Descriptive fixed-filter comparison only; not proven improvement or an independently executed filtered strategy."
       },
@@ -1357,8 +1373,8 @@
         },
         "measured_retained_pct": 80.0,
         "observed_difference_percentage_points": -2.5,
-        "classified_alerts": 30,
-        "pending": 0,
+        "classified_alerts": 31,
+        "pending": 1,
         "unavailable": 0,
         "interpretation": "Descriptive fixed-filter comparison only; not proven improvement or an independently executed filtered strategy."
       }
