@@ -9,7 +9,7 @@ from cloud_direction import run
 
 class FifteenTests(unittest.TestCase):
     def setUp(self):
-        self.now=datetime(2026,10,16,12,tzinfo=timezone.utc)
+        self.now=datetime(2026,10,16,6,tzinfo=timezone.utc)
         self.rows=[dict(time=self.now-timedelta(minutes=15*(80-i)),c=4000+i)
                    for i in range(80)]
 

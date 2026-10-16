@@ -17,6 +17,18 @@ UTC = timezone.utc
 IST = ZoneInfo('Asia/Kolkata')
 NY = ZoneInfo('America/New_York')
 STATE_PATH = 'cloud-direction-state.json'
+ALERT_WINDOW = 'IST_0900_1500_v1'
+
+
+def alert_window_open(now):
+    local = now.astimezone(IST)
+    return 9 <= local.hour < 15
+
+
+def already_notified(state, direction, checked):
+    return (state.get('alert_window') == ALERT_WINDOW
+            and state.get('session_date_ist') == checked.astimezone(IST).date().isoformat()
+            and state.get('last_notified') == direction)
 
 
 def session_open(now):
@@ -102,6 +114,12 @@ def run(now, load=read_state, save=write_state, deliver=send, feed=fetch, shadow
     except Exception:
         print('Notification state unavailable; no notification.')
         return 1
+    # Outside the user's window, only finish outcomes of earlier alerts.
+    pending = any(any(str(m) not in r.get('outcomes', {}) for m in (5, 10, 15))
+                  for r in state.get('performance', {}).get('alerts', []))
+    if not alert_window_open(now) and not pending:
+        print('Outside 09:00-15:00 IST; no notification.')
+        return 0
     try:
         rows, close = feed(5, now, size=80)
         checked = datetime.now(UTC)
@@ -115,8 +133,7 @@ def run(now, load=read_state, save=write_state, deliver=send, feed=fetch, shadow
     except Exception:
         print('Performance record invalid; no notification or state overwrite.')
         return 1
-    if not direction or (state.get('utc_date') == checked.date().isoformat()
-                         and state.get('last_notified') == direction):
+    if not alert_window_open(checked) or not direction or already_notified(state, direction, checked):
         if updated != state:
             try:
                 save(updated, sha)
@@ -124,17 +141,24 @@ def run(now, load=read_state, save=write_state, deliver=send, feed=fetch, shadow
             except Exception:
                 print('Outcome state write failed; no notification.')
                 return 1
+    if not alert_window_open(checked):
+        print('Outside 09:00-15:00 IST; outcome maintenance only, no notification.')
+        return 0
     if not direction:
         print('No clear fresh 5m direction; no notification.')
         return 0
     print('Fresh Twelve Data XAU/USD 5m closed through ' + close.astimezone(IST).isoformat())
-    if state.get('utc_date') == checked.date().isoformat() and state.get('last_notified') == direction:
+    if already_notified(state, direction, checked):
         print('Direction unchanged: ' + direction + '; no notification.')
         return 0
     message = direction + ' direction — 5m technical lean (' + checked.astimezone(IST).strftime('%H:%M IST') + ')'
     # Calculate from the same completed candles BEFORE delivery. Its result
     # is recorded for comparison only and does not suppress any live alert.
     shadow_filter = review_filter(rows, direction)
+    # Recheck the boundary immediately before starting Telegram delivery.
+    if not alert_window_open(datetime.now(UTC)):
+        print('Alert window ended before delivery; no notification.')
+        return 0
     try:
         deliver(message)
     except Exception:
@@ -145,10 +169,13 @@ def run(now, load=read_state, save=write_state, deliver=send, feed=fetch, shadow
     try:
         delivered = datetime.now(UTC)
         updated.update(utc_date=checked.date().isoformat(), last_notified=direction,
+                       alert_window=ALERT_WINDOW,
+                       session_date_ist=checked.astimezone(IST).date().isoformat(),
                        notified_ist=checked.astimezone(IST).isoformat(),
                        delivered_ist=delivered.astimezone(IST).isoformat(),
                        source='Twelve Data XAU/USD 5m')
-        updated = add_alert(updated, direction, delivered, close, rows[-1]['c'], shadow_filter)
+        updated = add_alert(updated, direction, delivered, close, rows[-1]['c'], shadow_filter,
+                            alert_window=ALERT_WINDOW)
         updated = update_outcomes(updated, rows, delivered)
         save(updated, sha)
     except Exception:

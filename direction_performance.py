@@ -16,7 +16,8 @@ def stamp(value):
     return parsed.astimezone(timezone.utc)
 
 
-def add_alert(state, direction, delivered, reference_close, reference_price, shadow_filter=None):
+def add_alert(state, direction, delivered, reference_close, reference_price, shadow_filter=None,
+              alert_window=None):
     if direction not in ('UP', 'DOWN') or not math.isfinite(reference_price) or reference_price <= 0:
         raise ValueError('invalid_tracking_reference')
     if delivered < reference_close:
@@ -29,6 +30,8 @@ def add_alert(state, direction, delivered, reference_close, reference_price, sha
                         reference_age_seconds=(delivered - reference_close).total_seconds(), outcomes={}))
     if shadow_filter is not None:
         records[-1]['shadow_filter'] = deepcopy(shadow_filter)
+    if alert_window is not None:
+        records[-1]['alert_window'] = alert_window
     result['performance']['alerts'] = records[-LIMIT:]
     return result
 
@@ -83,6 +86,26 @@ def update_outcomes(state, rows, now):
                 favourable_pct=round(100 * favourable / len(measured), 2) if measured else None)
         result['performance'].update(schema=1, summary=summary,
             scope='Forward completed-5m reference-price movement after confirmed delivery; no execution costs or fills. Up to 500 latest delivered alerts. Not predictive accuracy or profitability.')
+        # Keep older all-hours records intact; never relabel them retrospectively.
+        cohorts = {}
+        for cohort in sorted({r['alert_window'] for r in records if r.get('alert_window')}):
+            subset = [r for r in records if r.get('alert_window') == cohort]
+            cohort_summary = {}
+            for minutes in HORIZONS:
+                outcomes = [r['outcomes'].get(str(minutes), {}) for r in subset]
+                measured = [o for o in outcomes if o.get('status') == 'MEASURED']
+                favourable = sum(o['outcome'] == 'FAVOURABLE' for o in measured)
+                cohort_summary[str(minutes)] = dict(measured=len(measured), favourable=favourable,
+                    adverse=sum(o['outcome'] == 'ADVERSE' for o in measured),
+                    flat=sum(o['outcome'] == 'FLAT' for o in measured),
+                    unavailable=sum(o.get('status') == 'UNAVAILABLE' for o in outcomes),
+                    pending=sum(not o for o in outcomes),
+                    favourable_pct=round(100*favourable/len(measured), 2) if measured else None)
+            cohorts[cohort] = dict(alerts=len(subset), summary=cohort_summary,
+                shadow_comparison={str(m): comparison(subset, m) for m in HORIZONS},
+                shadow_15m_comparison={str(m): summarize_fifteen(subset, m) for m in HORIZONS})
+        if cohorts:
+            result['performance']['window_cohorts'] = cohorts
         if any('shadow_filter' in r for r in records):
             result['performance']['shadow_comparison'] = {str(m): comparison(records, m) for m in HORIZONS}
         if any('shadow_15m' in r for r in records):

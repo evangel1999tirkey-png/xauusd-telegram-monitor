@@ -1,5 +1,7 @@
 # Baseline and sequential experiments — 16 October 2026
 
+User-authorized schedule update: alerts are now restricted to 09:00–15:00 IST. The direction calculation remains the baseline. Daily deduplication now uses the IST session date and window identity, and new alerts have their own performance cohort. See ALERT-WINDOW.md; its window rules supersede the all-hours/UTC-day description below. Existing records and experiments remain intact.
+
 ## Preserve the live baseline
 
 The production baseline remains Twelve Data XAU/USD, 80 completed 5m candles, price above a rising EMA20 for UP / below a falling EMA20 for DOWN, comparing EMA[-1] to EMA[-4]. Keep the existing freshness, source/closed-candle guards, session exclusions, direction-change and UTC-day duplicate rules, concise Telegram message and delivery confirmation requirement. No experimental filter gates live alerts. Reference baseline implementation: commit d3f846f6c485f55d3d9c94b85555298296df6b8a. Later commits may add measurement but must preserve this decision rule.

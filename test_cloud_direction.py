@@ -3,12 +3,12 @@ import io
 from contextlib import redirect_stdout
 from datetime import datetime, timedelta, timezone
 from unittest.mock import Mock, patch
-from cloud_direction import candidate, run, session_open
+from cloud_direction import candidate, run, session_open, alert_window_open, ALERT_WINDOW
 
 
 class CloudDirectionTests(unittest.TestCase):
     def setUp(self):
-        self.now = datetime(2026, 10, 13, 14, 0, tzinfo=timezone.utc)
+        self.now = datetime(2026, 10, 13, 4, 0, tzinfo=timezone.utc)
         self.rows = [{'c': 4000 + i, 'time': self.now - timedelta(minutes=5*(80-i))} for i in range(80)]
 
     def test_lean_and_freshness(self):
@@ -29,10 +29,10 @@ class CloudDirectionTests(unittest.TestCase):
         return result, deliver, save
 
     def test_no_duplicate_and_new_day(self):
-        _, deliver, save = self.invoke(dict(utc_date='2026-10-13', last_notified='UP'))
+        _, deliver, save = self.invoke(dict(alert_window=ALERT_WINDOW, session_date_ist="2026-10-13", utc_date='2026-10-13', last_notified='UP'))
         deliver.assert_not_called()
         save.assert_not_called()
-        _, deliver, save = self.invoke(dict(utc_date='2026-10-12', last_notified='UP'))
+        _, deliver, save = self.invoke(dict(alert_window=ALERT_WINDOW, session_date_ist="2026-10-12", utc_date='2026-10-12', last_notified='UP'))
         deliver.assert_called_once()
         save.assert_called_once()
 
@@ -65,7 +65,7 @@ class CloudDirectionTests(unittest.TestCase):
                          'WOULD_SUPPRESS')
 
     def test_tracking_updates_without_duplicate_delivery(self):
-        state = dict(utc_date='2026-10-13', last_notified='UP', performance={'alerts': [
+        state = dict(alert_window=ALERT_WINDOW, session_date_ist="2026-10-13", utc_date='2026-10-13', last_notified='UP', performance={'alerts': [
             dict(direction='UP', delivered_utc=(self.now-timedelta(minutes=16)).isoformat(),
                  reference_close_utc=(self.now-timedelta(minutes=20)).isoformat(),
                  reference_price=self.rows[-5]['c'], outcomes={})]})
@@ -78,6 +78,51 @@ class CloudDirectionTests(unittest.TestCase):
         self.assertFalse(session_open(datetime(2026, 10, 17, 14, tzinfo=timezone.utc)))
         self.assertFalse(session_open(datetime(2026, 10, 13, 21, tzinfo=timezone.utc)))
         self.assertTrue(session_open(self.now))
+
+    def test_ist_window_boundaries(self):
+        for hour, minute, expected in [(3,29,False),(3,30,True),(9,29,True),(9,30,False)]:
+            moment = self.now.replace(hour=hour, minute=minute)
+            self.assertEqual(alert_window_open(moment), expected)
+
+    def test_outside_window_no_send_or_feed(self):
+        feed, deliver = Mock(), Mock()
+        with redirect_stdout(io.StringIO()):
+            result = run(self.now.replace(hour=10), load=Mock(return_value=({}, None)),
+                         feed=feed, deliver=deliver)
+        self.assertEqual(result, 0)
+        feed.assert_not_called()
+        deliver.assert_not_called()
+
+    def test_feed_crossing_end_boundary_blocks_delivery(self):
+        checked = self.now.replace(hour=9, minute=30)
+        deliver = Mock()
+        with patch('cloud_direction.datetime') as dt, redirect_stdout(io.StringIO()):
+            dt.now.return_value = checked
+            run(checked-timedelta(seconds=1), load=Mock(return_value=({}, None)),
+                deliver=deliver, feed=Mock(return_value=(self.rows, checked)))
+        deliver.assert_not_called()
+
+    def test_outside_window_completes_prior_outcomes_without_alert(self):
+        self.now = self.now.replace(hour=9, minute=35)
+        self.rows = [{'c': 4000+i, 'time': self.now-timedelta(minutes=5*(80-i))} for i in range(80)]
+        state = dict(last_notified='DOWN', performance={'alerts': [
+            dict(direction='UP', delivered_utc=(self.now-timedelta(minutes=16)).isoformat(),
+                 reference_close_utc=(self.now-timedelta(minutes=20)).isoformat(),
+                 reference_price=self.rows[-5]['c'], outcomes={})]})
+        _, deliver, save = self.invoke(state)
+        deliver.assert_not_called()
+        save.assert_called_once()
+        self.assertEqual(save.call_args.args[0]['performance']['summary']['15']['measured'], 1)
+
+    def test_delivery_boundary_rechecked_after_analysis(self):
+        before = self.now.replace(hour=9, minute=29, second=59)
+        after = before+timedelta(seconds=1)
+        deliver = Mock()
+        with patch('cloud_direction.datetime') as dt, redirect_stdout(io.StringIO()):
+            dt.now.side_effect = [before, after]
+            run(before, load=Mock(return_value=({}, None)), deliver=deliver,
+                feed=Mock(return_value=(self.rows, before)))
+        deliver.assert_not_called()
 
 
 if __name__ == '__main__':

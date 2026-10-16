@@ -48,6 +48,16 @@ class DirectionPerformanceTests(unittest.TestCase):
         legacy = {'last_notified': 'UP', 'notified_ist': self.delivered.isoformat()}
         self.assertEqual(update_outcomes(legacy, self.rows, self.base+timedelta(minutes=20)), legacy)
 
+    def test_window_cohort_excludes_legacy_without_relabelling(self):
+        combined = add_alert(self.state, 'DOWN', self.delivered, self.base, 4000,
+                             alert_window='IST_0900_1500_v1')
+        result = update_outcomes(combined, self.rows, self.base+timedelta(minutes=20))
+        cohort = result['performance']['window_cohorts']['IST_0900_1500_v1']
+        self.assertEqual(cohort['alerts'], 1)
+        self.assertEqual(cohort['summary']['5']['adverse'], 1)
+        self.assertEqual(result['performance']['summary']['5']['measured'], 2)
+        self.assertNotIn('alert_window', result['performance']['alerts'][0])
+
 
 if __name__ == '__main__':
     unittest.main()
