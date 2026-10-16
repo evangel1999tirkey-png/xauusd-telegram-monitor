@@ -1,0 +1,12 @@
+# Focus: 09:00–15:00 IST only
+
+This is the active improvement plan. The original completed-5m EMA20 UP/DOWN rule remains live; both experimental filters remain inactive. Older all-hours results are historical context and cannot establish an improvement for this new schedule.
+
+1. **Implemented: session evaluation.** `performance.session_focus` reports only forward alerts tagged IST_0900_1500_v1 and actually confirmed during the window. Six fixed hourly groups, UP/DOWN groups, session-day counts, favourable/adverse/flat/pending/unavailable counts, candle age at confirmed delivery and independent shadow comparisons are shown. Unknown percentages are null, never zero or a claimed improvement. Existing all-history records remain intact.
+2. **Next experiment already collecting: 15m trend agreement.** Compare only matched, forward window observations with the unchanged baseline. Do not activate the filter yet. The older weak-slope experiment stays inactive; do not tune thresholds from the losing sample.
+3. **Assess notification reliability separately.** Candle-close-to-confirmed-delivery age is measured, but is not scheduler latency or phone receipt time. GitHub's known delayed cadence remains unresolved and can miss short setups. A different host still requires its own authenticated setup and validation; none has been deployed.
+4. **Validate before promoting one change.** Examine outcomes and retained-alert counts over multiple sessions, including a later chronological period untouched by rule selection. Do not choose a winning hour from a tiny sample, combine overlapping horizons as independent wins, automatically shorten the user's window, or promise a 10% gain. Each proposed live change needs evidence, an explicit version and a comparison against this preserved session baseline.
+
+Session-only outcome rule: a completed candle at 15:00 is observable at the end of the sitting; later endpoints are excluded from the new report and its matched comparisons. Original 5/10/15-minute records remain unchanged and may be completed by silent maintenance after the sitting. Hour groups refer to confirmed-delivery time in IST. No notification, order, stop, target or position management is added by this measurement feature.
+
+The latest 500-alert storage limit still applies. Stats measure subsequent reference-price direction, not fills, costs, profit or a proven predictive improvement. Post-delivery 15m shadow classification retains its existing source/timing limitations.

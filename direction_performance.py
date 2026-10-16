@@ -4,6 +4,7 @@ from datetime import datetime, timedelta, timezone
 import math
 from direction_filter import comparison
 from shadow_fifteen import summarize as summarize_fifteen
+from session_performance import report as session_report
 
 HORIZONS = (5, 10, 15)
 LIMIT = 500
@@ -106,6 +107,7 @@ def update_outcomes(state, rows, now):
                 shadow_15m_comparison={str(m): summarize_fifteen(subset, m) for m in HORIZONS})
         if cohorts:
             result['performance']['window_cohorts'] = cohorts
+        result['performance']['session_focus'] = session_report(records)
         if any('shadow_filter' in r for r in records):
             result['performance']['shadow_comparison'] = {str(m): comparison(records, m) for m in HORIZONS}
         if any('shadow_15m' in r for r in records):

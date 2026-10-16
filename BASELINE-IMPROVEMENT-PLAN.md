@@ -1,5 +1,7 @@
 # Baseline and sequential experiments — 16 October 2026
 
+Active focus is now exclusively the user's 09:00–15:00 IST sitting. Follow SESSION-IMPROVEMENT-PLAN.md for sequential evaluation; the session report excludes untagged historical alerts and post-15:00 outcome endpoints. All-hours aggregates below are historical context only.
+
 User-authorized schedule update: alerts are now restricted to 09:00–15:00 IST. The direction calculation remains the baseline. Daily deduplication now uses the IST session date and window identity, and new alerts have their own performance cohort. See ALERT-WINDOW.md; its window rules supersede the all-hours/UTC-day description below. Existing records and experiments remain intact.
 
 ## Preserve the live baseline
