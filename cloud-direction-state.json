@@ -1,9 +1,9 @@
 {
   "utc_date": "2026-10-19",
-  "last_notified": "UP",
-  "notified_ist": "2026-10-19T09:03:47.911825+05:30",
+  "last_notified": "DOWN",
+  "notified_ist": "2026-10-19T13:29:14.790366+05:30",
   "source": "Twelve Data XAU/USD 5m",
-  "delivered_ist": "2026-10-19T09:03:49.319368+05:30",
+  "delivered_ist": "2026-10-19T13:29:15.454121+05:30",
   "performance": {
     "alerts": [
       {
@@ -1597,6 +1597,23 @@
           "reviewed_utc": "2026-10-19T03:33:50.592439+00:00",
           "collection": "after confirmed delivery; only candles closed by decision time"
         }
+      },
+      {
+        "direction": "DOWN",
+        "delivered_utc": "2026-10-19T07:59:15.454121+00:00",
+        "reference_close_utc": "2026-10-19T07:55:00+00:00",
+        "reference_price": 4178.39026,
+        "reference_age_seconds": 255.454121,
+        "outcomes": {},
+        "shadow_filter": {
+          "version": "ema20_slope3_tr14_v1",
+          "mode": "SHADOW_ONLY",
+          "threshold": 0.1,
+          "status": "WOULD_KEEP",
+          "slope_to_range": 0.13494046582297822,
+          "mean_true_range14": 4.508649285714325
+        },
+        "alert_window": "IST_0900_1500_v1"
       }
     ],
     "schema": 1,
@@ -1607,7 +1624,7 @@
         "adverse": 19,
         "flat": 0,
         "unavailable": 0,
-        "pending": 0,
+        "pending": 1,
         "favourable_pct": 50.0
       },
       "10": {
@@ -1616,7 +1633,7 @@
         "adverse": 19,
         "flat": 0,
         "unavailable": 0,
-        "pending": 0,
+        "pending": 1,
         "favourable_pct": 50.0
       },
       "15": {
@@ -1625,7 +1642,7 @@
         "adverse": 18,
         "flat": 0,
         "unavailable": 0,
-        "pending": 0,
+        "pending": 1,
         "favourable_pct": 52.63
       }
     },
@@ -1657,8 +1674,8 @@
         },
         "measured_retained_pct": 76.3157894736842,
         "observed_difference_percentage_points": -5.172413793103445,
-        "classified_alerts": 38,
-        "pending": 0,
+        "classified_alerts": 39,
+        "pending": 1,
         "unavailable": 0,
         "interpretation": "Descriptive fixed-filter comparison only; not proven improvement or an independently executed filtered strategy."
       },
@@ -1688,8 +1705,8 @@
         },
         "measured_retained_pct": 76.3157894736842,
         "observed_difference_percentage_points": -1.724137931034484,
-        "classified_alerts": 38,
-        "pending": 0,
+        "classified_alerts": 39,
+        "pending": 1,
         "unavailable": 0,
         "interpretation": "Descriptive fixed-filter comparison only; not proven improvement or an independently executed filtered strategy."
       },
@@ -1719,8 +1736,8 @@
         },
         "measured_retained_pct": 76.3157894736842,
         "observed_difference_percentage_points": 2.540834845735027,
-        "classified_alerts": 38,
-        "pending": 0,
+        "classified_alerts": 39,
+        "pending": 1,
         "unavailable": 0,
         "interpretation": "Descriptive fixed-filter comparison only; not proven improvement or an independently executed filtered strategy."
       }
@@ -1825,7 +1842,7 @@
       "timezone": "Asia/Kolkata",
       "mode": "MEASUREMENT_ONLY",
       "baseline": {
-        "alerts": 1,
+        "alerts": 2,
         "session_days": 1,
         "outcomes": {
           "5": {
@@ -1835,7 +1852,7 @@
             "flat": 0,
             "unavailable": 0,
             "outside_session": 0,
-            "pending": 0,
+            "pending": 1,
             "favourable_pct": 0.0
           },
           "10": {
@@ -1845,7 +1862,7 @@
             "flat": 0,
             "unavailable": 0,
             "outside_session": 0,
-            "pending": 0,
+            "pending": 1,
             "favourable_pct": 0.0
           },
           "15": {
@@ -1855,7 +1872,7 @@
             "flat": 0,
             "unavailable": 0,
             "outside_session": 0,
-            "pending": 0,
+            "pending": 1,
             "favourable_pct": 100.0
           }
         }
@@ -2007,8 +2024,8 @@
           }
         },
         "13:00-14:00": {
-          "alerts": 0,
-          "session_days": 0,
+          "alerts": 1,
+          "session_days": 1,
           "outcomes": {
             "5": {
               "measured": 0,
@@ -2017,7 +2034,7 @@
               "flat": 0,
               "unavailable": 0,
               "outside_session": 0,
-              "pending": 0,
+              "pending": 1,
               "favourable_pct": null
             },
             "10": {
@@ -2027,7 +2044,7 @@
               "flat": 0,
               "unavailable": 0,
               "outside_session": 0,
-              "pending": 0,
+              "pending": 1,
               "favourable_pct": null
             },
             "15": {
@@ -2037,7 +2054,7 @@
               "flat": 0,
               "unavailable": 0,
               "outside_session": 0,
-              "pending": 0,
+              "pending": 1,
               "favourable_pct": null
             }
           }
@@ -2117,8 +2134,8 @@
           }
         },
         "DOWN": {
-          "alerts": 0,
-          "session_days": 0,
+          "alerts": 1,
+          "session_days": 1,
           "outcomes": {
             "5": {
               "measured": 0,
@@ -2127,7 +2144,7 @@
               "flat": 0,
               "unavailable": 0,
               "outside_session": 0,
-              "pending": 0,
+              "pending": 1,
               "favourable_pct": null
             },
             "10": {
@@ -2137,7 +2154,7 @@
               "flat": 0,
               "unavailable": 0,
               "outside_session": 0,
-              "pending": 0,
+              "pending": 1,
               "favourable_pct": null
             },
             "15": {
@@ -2147,16 +2164,16 @@
               "flat": 0,
               "unavailable": 0,
               "outside_session": 0,
-              "pending": 0,
+              "pending": 1,
               "favourable_pct": null
             }
           }
         }
       },
       "candle_close_to_confirmed_delivery_seconds": {
-        "observations": 1,
-        "median": 229.319368,
-        "maximum": 229.319368
+        "observations": 2,
+        "median": 242.3867445,
+        "maximum": 255.454121
       },
       "shadow_15m_comparison": {
         "5": {
@@ -2280,8 +2297,8 @@
           },
           "measured_retained_pct": 100.0,
           "observed_difference_percentage_points": 0.0,
-          "classified_alerts": 1,
-          "pending": 0,
+          "classified_alerts": 2,
+          "pending": 1,
           "unavailable": 0,
           "interpretation": "Descriptive fixed-filter comparison only; not proven improvement or an independently executed filtered strategy."
         },
@@ -2311,8 +2328,8 @@
           },
           "measured_retained_pct": 100.0,
           "observed_difference_percentage_points": 0.0,
-          "classified_alerts": 1,
-          "pending": 0,
+          "classified_alerts": 2,
+          "pending": 1,
           "unavailable": 0,
           "interpretation": "Descriptive fixed-filter comparison only; not proven improvement or an independently executed filtered strategy."
         },
@@ -2342,8 +2359,8 @@
           },
           "measured_retained_pct": 100.0,
           "observed_difference_percentage_points": 0.0,
-          "classified_alerts": 1,
-          "pending": 0,
+          "classified_alerts": 2,
+          "pending": 1,
           "unavailable": 0,
           "interpretation": "Descriptive fixed-filter comparison only; not proven improvement or an independently executed filtered strategy."
         }
@@ -2353,7 +2370,7 @@
     },
     "window_cohorts": {
       "IST_0900_1500_v1": {
-        "alerts": 1,
+        "alerts": 2,
         "summary": {
           "5": {
             "measured": 1,
@@ -2361,7 +2378,7 @@
             "adverse": 1,
             "flat": 0,
             "unavailable": 0,
-            "pending": 0,
+            "pending": 1,
             "favourable_pct": 0.0
           },
           "10": {
@@ -2370,7 +2387,7 @@
             "adverse": 1,
             "flat": 0,
             "unavailable": 0,
-            "pending": 0,
+            "pending": 1,
             "favourable_pct": 0.0
           },
           "15": {
@@ -2379,7 +2396,7 @@
             "adverse": 0,
             "flat": 0,
             "unavailable": 0,
-            "pending": 0,
+            "pending": 1,
             "favourable_pct": 100.0
           }
         },
@@ -2410,8 +2427,8 @@
             },
             "measured_retained_pct": 100.0,
             "observed_difference_percentage_points": 0.0,
-            "classified_alerts": 1,
-            "pending": 0,
+            "classified_alerts": 2,
+            "pending": 1,
             "unavailable": 0,
             "interpretation": "Descriptive fixed-filter comparison only; not proven improvement or an independently executed filtered strategy."
           },
@@ -2441,8 +2458,8 @@
             },
             "measured_retained_pct": 100.0,
             "observed_difference_percentage_points": 0.0,
-            "classified_alerts": 1,
-            "pending": 0,
+            "classified_alerts": 2,
+            "pending": 1,
             "unavailable": 0,
             "interpretation": "Descriptive fixed-filter comparison only; not proven improvement or an independently executed filtered strategy."
           },
@@ -2472,8 +2489,8 @@
             },
             "measured_retained_pct": 100.0,
             "observed_difference_percentage_points": 0.0,
-            "classified_alerts": 1,
-            "pending": 0,
+            "classified_alerts": 2,
+            "pending": 1,
             "unavailable": 0,
             "interpretation": "Descriptive fixed-filter comparison only; not proven improvement or an independently executed filtered strategy."
           }
