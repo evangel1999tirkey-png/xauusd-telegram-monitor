@@ -1666,7 +1666,18 @@
           "slope_to_range": 0.546327537275289,
           "mean_true_range14": 3.3284792857144305
         },
-        "alert_window": "IST_0900_1500_v1"
+        "alert_window": "IST_0900_1500_v1",
+        "shadow_15m": {
+          "version": "completed15m_ema20_agreement_v1",
+          "mode": "SHADOW_ONLY",
+          "status": "WOULD_KEEP",
+          "decision_utc": "2026-10-20T03:32:56.701630+00:00",
+          "trend15": "UP",
+          "closed_through_utc": "2026-10-20T03:30:00+00:00",
+          "sample_size": 79,
+          "reviewed_utc": "2026-10-20T03:32:59.316722+00:00",
+          "collection": "after confirmed delivery; only candles closed by decision time"
+        }
       }
     ],
     "schema": 1,
@@ -1822,8 +1833,8 @@
         },
         "measured_retained_pct": 50.0,
         "observed_difference_percentage_points": 0.0,
-        "classified_alerts": 4,
-        "pending": 0,
+        "classified_alerts": 5,
+        "pending": 1,
         "unavailable": 0,
         "interpretation": "Descriptive fixed-filter comparison only; not proven improvement or an independently executed filtered strategy."
       },
@@ -1853,8 +1864,8 @@
         },
         "measured_retained_pct": 50.0,
         "observed_difference_percentage_points": 0.0,
-        "classified_alerts": 4,
-        "pending": 0,
+        "classified_alerts": 5,
+        "pending": 1,
         "unavailable": 0,
         "interpretation": "Descriptive fixed-filter comparison only; not proven improvement or an independently executed filtered strategy."
       },
@@ -1884,8 +1895,8 @@
         },
         "measured_retained_pct": 50.0,
         "observed_difference_percentage_points": 50.0,
-        "classified_alerts": 4,
-        "pending": 0,
+        "classified_alerts": 5,
+        "pending": 1,
         "unavailable": 0,
         "interpretation": "Descriptive fixed-filter comparison only; not proven improvement or an independently executed filtered strategy."
       }
