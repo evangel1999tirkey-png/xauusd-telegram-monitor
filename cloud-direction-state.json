@@ -2986,13 +2986,13 @@
     "latest": {
       "version": "session_break_retest_1m_v1",
       "mode": "SHADOW_ONLY",
-      "status": "DIRECTION_ONLY",
-      "checked_ist": "2026-10-21T12:24:27.257474+05:30",
-      "direction": "DOWN",
+      "status": "DIRECTION_NOT_ALIGNED",
+      "checked_ist": "2026-10-21T13:03:52.644429+05:30",
+      "direction": null,
       "source": "Twelve Data XAU/USD reference candles",
       "execution_verified": false,
-      "closed_5m_ist": "2026-10-21T12:20:00+05:30",
-      "closed_15m_ist": "2026-10-21T12:15:00+05:30"
+      "closed_5m_ist": "2026-10-21T13:00:00+05:30",
+      "closed_15m_ist": "2026-10-21T13:00:00+05:30"
     }
   }
 }
