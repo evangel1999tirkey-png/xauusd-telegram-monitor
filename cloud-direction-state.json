@@ -3011,13 +3011,13 @@
     "latest": {
       "version": "session_break_retest_1m_v1",
       "mode": "SHADOW_ONLY",
-      "status": "DIRECTION_NOT_ALIGNED",
-      "checked_ist": "2026-10-21T13:03:52.644429+05:30",
-      "direction": null,
+      "status": "DIRECTION_ONLY",
+      "checked_ist": "2026-10-21T13:44:03.661814+05:30",
+      "direction": "UP",
       "source": "Twelve Data XAU/USD reference candles",
       "execution_verified": false,
-      "closed_5m_ist": "2026-10-21T13:00:00+05:30",
-      "closed_15m_ist": "2026-10-21T13:00:00+05:30"
+      "closed_5m_ist": "2026-10-21T13:40:00+05:30",
+      "closed_15m_ist": "2026-10-21T13:30:00+05:30"
     }
   }
 }
