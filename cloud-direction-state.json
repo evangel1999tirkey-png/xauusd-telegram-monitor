@@ -2853,12 +2853,12 @@
       "version": "session_break_retest_1m_v1",
       "mode": "SHADOW_ONLY",
       "status": "DIRECTION_NOT_ALIGNED",
-      "checked_ist": "2026-10-21T10:10:40.623376+05:30",
+      "checked_ist": "2026-10-21T10:42:01.791843+05:30",
       "direction": null,
       "source": "Twelve Data XAU/USD reference candles",
       "execution_verified": false,
-      "closed_5m_ist": "2026-10-21T10:10:00+05:30",
-      "closed_15m_ist": "2026-10-21T10:00:00+05:30"
+      "closed_5m_ist": "2026-10-21T10:40:00+05:30",
+      "closed_15m_ist": "2026-10-21T10:30:00+05:30"
     }
   }
 }
