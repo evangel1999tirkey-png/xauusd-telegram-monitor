@@ -3065,12 +3065,12 @@
       "version": "session_break_retest_1m_v1",
       "mode": "SHADOW_ONLY",
       "status": "DIRECTION_ONLY",
-      "checked_ist": "2026-10-22T09:42:52.916984+05:30",
+      "checked_ist": "2026-10-22T10:14:06.370546+05:30",
       "direction": "DOWN",
       "source": "Twelve Data XAU/USD reference candles",
       "execution_verified": false,
-      "closed_5m_ist": "2026-10-22T09:40:00+05:30",
-      "closed_15m_ist": "2026-10-22T09:30:00+05:30"
+      "closed_5m_ist": "2026-10-22T10:10:00+05:30",
+      "closed_15m_ist": "2026-10-22T10:00:00+05:30"
     }
   }
 }
