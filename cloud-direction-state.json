@@ -3118,12 +3118,12 @@
       "version": "session_break_retest_1m_v1",
       "mode": "SHADOW_ONLY",
       "status": "DIRECTION_NOT_ALIGNED",
-      "checked_ist": "2026-10-22T11:46:54.098583+05:30",
+      "checked_ist": "2026-10-22T12:39:28.175715+05:30",
       "direction": null,
       "source": "Twelve Data XAU/USD reference candles",
       "execution_verified": false,
-      "closed_5m_ist": "2026-10-22T11:45:00+05:30",
-      "closed_15m_ist": "2026-10-22T11:45:00+05:30"
+      "closed_5m_ist": "2026-10-22T12:35:00+05:30",
+      "closed_15m_ist": "2026-10-22T12:30:00+05:30"
     }
   }
 }
