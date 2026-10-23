@@ -2408,7 +2408,18 @@
           "slope_to_range": 0.528061158940626,
           "mean_true_range14": 3.8698514285714345
         },
-        "alert_window": "IST_0900_1500_v1"
+        "alert_window": "IST_0900_1500_v1",
+        "shadow_15m": {
+          "version": "completed15m_ema20_agreement_v1",
+          "mode": "SHADOW_ONLY",
+          "status": "WOULD_KEEP",
+          "decision_utc": "2026-10-23T09:15:23.142414+00:00",
+          "trend15": "UP",
+          "closed_through_utc": "2026-10-23T09:15:00+00:00",
+          "sample_size": 80,
+          "reviewed_utc": "2026-10-23T09:15:25.247603+00:00",
+          "collection": "after confirmed delivery; only candles closed by decision time"
+        }
       }
     ],
     "schema": 1,
@@ -2564,8 +2575,8 @@
         },
         "measured_retained_pct": 50.0,
         "observed_difference_percentage_points": 11.111111111111114,
-        "classified_alerts": 18,
-        "pending": 0,
+        "classified_alerts": 19,
+        "pending": 1,
         "unavailable": 0,
         "interpretation": "Descriptive fixed-filter comparison only; not proven improvement or an independently executed filtered strategy."
       },
@@ -2595,8 +2606,8 @@
         },
         "measured_retained_pct": 50.0,
         "observed_difference_percentage_points": 16.666666666666657,
-        "classified_alerts": 18,
-        "pending": 0,
+        "classified_alerts": 19,
+        "pending": 1,
         "unavailable": 0,
         "interpretation": "Descriptive fixed-filter comparison only; not proven improvement or an independently executed filtered strategy."
       },
@@ -2626,8 +2637,8 @@
         },
         "measured_retained_pct": 50.0,
         "observed_difference_percentage_points": 33.33333333333333,
-        "classified_alerts": 18,
-        "pending": 0,
+        "classified_alerts": 19,
+        "pending": 1,
         "unavailable": 0,
         "interpretation": "Descriptive fixed-filter comparison only; not proven improvement or an independently executed filtered strategy."
       }
