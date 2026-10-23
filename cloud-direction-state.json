@@ -2196,7 +2196,18 @@
           "slope_to_range": 0.004519915482818715,
           "mean_true_range14": 4.328260714285697
         },
-        "alert_window": "IST_0900_1500_v1"
+        "alert_window": "IST_0900_1500_v1",
+        "shadow_15m": {
+          "version": "completed15m_ema20_agreement_v1",
+          "mode": "SHADOW_ONLY",
+          "status": "WOULD_SUPPRESS",
+          "decision_utc": "2026-10-23T03:33:54.303920+00:00",
+          "trend15": "FLAT",
+          "closed_through_utc": "2026-10-23T03:30:00+00:00",
+          "sample_size": 79,
+          "reviewed_utc": "2026-10-23T03:33:56.826041+00:00",
+          "collection": "after confirmed delivery; only candles closed by decision time"
+        }
       }
     ],
     "schema": 1,
@@ -2352,8 +2363,8 @@
         },
         "measured_retained_pct": 50.0,
         "observed_difference_percentage_points": 7.142857142857146,
-        "classified_alerts": 14,
-        "pending": 0,
+        "classified_alerts": 15,
+        "pending": 1,
         "unavailable": 0,
         "interpretation": "Descriptive fixed-filter comparison only; not proven improvement or an independently executed filtered strategy."
       },
@@ -2383,8 +2394,8 @@
         },
         "measured_retained_pct": 50.0,
         "observed_difference_percentage_points": 14.285714285714285,
-        "classified_alerts": 14,
-        "pending": 0,
+        "classified_alerts": 15,
+        "pending": 1,
         "unavailable": 0,
         "interpretation": "Descriptive fixed-filter comparison only; not proven improvement or an independently executed filtered strategy."
       },
@@ -2414,8 +2425,8 @@
         },
         "measured_retained_pct": 50.0,
         "observed_difference_percentage_points": 28.571428571428562,
-        "classified_alerts": 14,
-        "pending": 0,
+        "classified_alerts": 15,
+        "pending": 1,
         "unavailable": 0,
         "interpretation": "Descriptive fixed-filter comparison only; not proven improvement or an independently executed filtered strategy."
       }
