@@ -3288,7 +3288,32 @@
         "closed_1m_ist": "2026-10-23T10:06:00+05:30",
         "session_date_ist": "2026-10-23",
         "selected_utc": "2026-10-23T04:37:13.836602+00:00",
-        "outcomes": {}
+        "outcomes": {
+          "5": {
+            "status": "MEASURED",
+            "signed_change_usd_per_oz": -0.0482,
+            "evaluated_close_utc": "2026-10-23T04:43:00+00:00",
+            "reference_price": 4005.59541,
+            "minutes_after_selection": 5.769,
+            "outcome": "ADVERSE"
+          },
+          "10": {
+            "status": "MEASURED",
+            "signed_change_usd_per_oz": 1.9128,
+            "evaluated_close_utc": "2026-10-23T04:48:00+00:00",
+            "reference_price": 4003.63441,
+            "minutes_after_selection": 10.769,
+            "outcome": "FAVOURABLE"
+          },
+          "15": {
+            "status": "MEASURED",
+            "signed_change_usd_per_oz": 1.08423,
+            "evaluated_close_utc": "2026-10-23T04:53:00+00:00",
+            "reference_price": 4004.46298,
+            "minutes_after_selection": 15.769,
+            "outcome": "FAVOURABLE"
+          }
+        }
       }
     ],
     "version": "session_break_retest_1m_v1",
@@ -3298,51 +3323,44 @@
     "latest": {
       "version": "session_break_retest_1m_v1",
       "mode": "SHADOW_ONLY",
-      "status": "SHADOW_CANDIDATE_RECORDED",
-      "checked_ist": "2026-10-23T10:07:13.835756+05:30",
+      "status": "DIRECTION_ONLY",
+      "checked_ist": "2026-10-23T10:39:00.533518+05:30",
       "direction": "DOWN",
       "source": "Twelve Data XAU/USD reference candles",
       "execution_verified": false,
-      "closed_5m_ist": "2026-10-23T10:05:00+05:30",
-      "closed_15m_ist": "2026-10-23T10:00:00+05:30",
-      "invalidation": 4008.01603,
-      "breakout_level": 4008.33734,
-      "five_atr": 3.200014999999991,
-      "setup_id": "session_break_retest_1m_v1:DOWN:2026-10-23T04:20:00+00:00",
-      "reference_close_utc": "2026-10-23T04:36:00+00:00",
-      "reference_price": 4005.54721,
-      "closed_1m_ist": "2026-10-23T10:06:00+05:30"
+      "closed_5m_ist": "2026-10-23T10:35:00+05:30",
+      "closed_15m_ist": "2026-10-23T10:30:00+05:30"
     },
     "summary": {
       "5": {
-        "measured": 0,
+        "measured": 1,
         "favourable": 0,
-        "adverse": 0,
+        "adverse": 1,
         "flat": 0,
-        "pending": 1,
+        "pending": 0,
         "unavailable": 0,
         "outside_session": 0,
-        "favourable_pct": null
+        "favourable_pct": 0.0
       },
       "10": {
-        "measured": 0,
-        "favourable": 0,
+        "measured": 1,
+        "favourable": 1,
         "adverse": 0,
         "flat": 0,
-        "pending": 1,
+        "pending": 0,
         "unavailable": 0,
         "outside_session": 0,
-        "favourable_pct": null
+        "favourable_pct": 100.0
       },
       "15": {
-        "measured": 0,
-        "favourable": 0,
+        "measured": 1,
+        "favourable": 1,
         "adverse": 0,
         "flat": 0,
-        "pending": 1,
+        "pending": 0,
         "unavailable": 0,
         "outside_session": 0,
-        "favourable_pct": null
+        "favourable_pct": 100.0
       }
     },
     "measurement_scope": "1m reference closes 5/10/15 minutes after shadow selection, rounded up to next completed minute; no fills, costs, trades or profitability. Not a matched baseline comparison."
