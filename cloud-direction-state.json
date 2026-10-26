@@ -3642,12 +3642,12 @@
       "version": "session_break_retest_1m_v1",
       "mode": "SHADOW_ONLY",
       "status": "DIRECTION_ONLY",
-      "checked_ist": "2026-10-26T14:08:38.016791+05:30",
+      "checked_ist": "2026-10-26T14:52:03.671906+05:30",
       "direction": "UP",
       "source": "Twelve Data XAU/USD reference candles",
       "execution_verified": false,
-      "closed_5m_ist": "2026-10-26T14:05:00+05:30",
-      "closed_15m_ist": "2026-10-26T14:00:00+05:30"
+      "closed_5m_ist": "2026-10-26T14:50:00+05:30",
+      "closed_15m_ist": "2026-10-26T14:45:00+05:30"
     },
     "summary": {
       "5": {
