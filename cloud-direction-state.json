@@ -3722,17 +3722,13 @@
     "latest": {
       "version": "session_break_retest_1m_v1",
       "mode": "SHADOW_ONLY",
-      "status": "ENTRY_PENDING",
-      "checked_ist": "2026-10-27T09:50:55.024490+05:30",
-      "direction": "UP",
+      "status": "DIRECTION_NOT_ALIGNED",
+      "checked_ist": "2026-10-27T10:26:26.733089+05:30",
+      "direction": null,
       "source": "Twelve Data XAU/USD reference candles",
       "execution_verified": false,
-      "closed_5m_ist": "2026-10-27T09:50:00+05:30",
-      "closed_15m_ist": "2026-10-27T09:45:00+05:30",
-      "invalidation": 4021.23211,
-      "breakout_level": 4021.31009,
-      "five_atr": 3.400757857142935,
-      "setup_id": "session_break_retest_1m_v1:UP:2026-10-27T04:05:00+00:00"
+      "closed_5m_ist": "2026-10-27T10:25:00+05:30",
+      "closed_15m_ist": "2026-10-27T10:15:00+05:30"
     },
     "summary": {
       "5": {
