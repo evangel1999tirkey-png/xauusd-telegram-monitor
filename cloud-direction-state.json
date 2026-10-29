@@ -4040,13 +4040,13 @@
     "latest": {
       "version": "session_break_retest_1m_v1",
       "mode": "SHADOW_ONLY",
-      "status": "DIRECTION_ONLY",
-      "checked_ist": "2026-10-29T12:59:44.204475+05:30",
-      "direction": "DOWN",
+      "status": "DIRECTION_NOT_ALIGNED",
+      "checked_ist": "2026-10-29T13:52:26.090145+05:30",
+      "direction": null,
       "source": "Twelve Data XAU/USD reference candles",
       "execution_verified": false,
-      "closed_5m_ist": "2026-10-29T12:55:00+05:30",
-      "closed_15m_ist": "2026-10-29T12:45:00+05:30"
+      "closed_5m_ist": "2026-10-29T13:50:00+05:30",
+      "closed_15m_ist": "2026-10-29T13:45:00+05:30"
     },
     "summary": {
       "5": {
