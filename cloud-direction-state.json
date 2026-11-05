@@ -4570,13 +4570,13 @@
     "latest": {
       "version": "session_break_retest_1m_v1",
       "mode": "SHADOW_ONLY",
-      "status": "DIRECTION_ONLY",
-      "checked_ist": "2026-11-05T09:51:17.603032+05:30",
-      "direction": "UP",
+      "status": "DIRECTION_NOT_ALIGNED",
+      "checked_ist": "2026-11-05T10:52:40.813872+05:30",
+      "direction": null,
       "source": "Twelve Data XAU/USD reference candles",
       "execution_verified": false,
-      "closed_5m_ist": "2026-11-05T09:50:00+05:30",
-      "closed_15m_ist": "2026-11-05T09:45:00+05:30"
+      "closed_5m_ist": "2026-11-05T10:50:00+05:30",
+      "closed_15m_ist": "2026-11-05T10:45:00+05:30"
     },
     "summary": {
       "5": {
