@@ -3733,7 +3733,18 @@
           "slope_to_range": 0.05765131845738977,
           "mean_true_range14": 6.1574935714285335
         },
-        "alert_window": "IST_0900_1500_v1"
+        "alert_window": "IST_0900_1500_v1",
+        "shadow_15m": {
+          "version": "completed15m_ema20_agreement_v1",
+          "mode": "SHADOW_ONLY",
+          "status": "WOULD_SUPPRESS",
+          "decision_utc": "2026-11-06T06:24:21.166719+00:00",
+          "trend15": "DOWN",
+          "closed_through_utc": "2026-11-06T06:15:00+00:00",
+          "sample_size": 79,
+          "reviewed_utc": "2026-11-06T06:24:23.103953+00:00",
+          "collection": "after confirmed delivery; only candles closed by decision time"
+        }
       }
     ],
     "schema": 1,
@@ -3889,8 +3900,8 @@
         },
         "measured_retained_pct": 53.48837209302326,
         "observed_difference_percentage_points": 0.4044489383215364,
-        "classified_alerts": 43,
-        "pending": 0,
+        "classified_alerts": 44,
+        "pending": 1,
         "unavailable": 0,
         "interpretation": "Descriptive fixed-filter comparison only; not proven improvement or an independently executed filtered strategy."
       },
@@ -3920,8 +3931,8 @@
         },
         "measured_retained_pct": 53.48837209302326,
         "observed_difference_percentage_points": 4.75227502527806,
-        "classified_alerts": 43,
-        "pending": 0,
+        "classified_alerts": 44,
+        "pending": 1,
         "unavailable": 0,
         "interpretation": "Descriptive fixed-filter comparison only; not proven improvement or an independently executed filtered strategy."
       },
@@ -3951,8 +3962,8 @@
         },
         "measured_retained_pct": 53.48837209302326,
         "observed_difference_percentage_points": 13.447927199191106,
-        "classified_alerts": 43,
-        "pending": 0,
+        "classified_alerts": 44,
+        "pending": 1,
         "unavailable": 0,
         "interpretation": "Descriptive fixed-filter comparison only; not proven improvement or an independently executed filtered strategy."
       }
