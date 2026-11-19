@@ -5018,12 +5018,12 @@
       "version": "session_break_retest_1m_v1",
       "mode": "SHADOW_ONLY",
       "status": "DIRECTION_ONLY",
-      "checked_ist": "2026-11-12T13:18:27.656219+05:30",
-      "direction": "DOWN",
+      "checked_ist": "2026-11-19T13:47:07.773220+05:30",
+      "direction": "UP",
       "source": "Twelve Data XAU/USD reference candles",
       "execution_verified": false,
-      "closed_5m_ist": "2026-11-12T13:15:00+05:30",
-      "closed_15m_ist": "2026-11-12T13:15:00+05:30"
+      "closed_5m_ist": "2026-11-19T13:45:00+05:30",
+      "closed_15m_ist": "2026-11-19T13:45:00+05:30"
     },
     "summary": {
       "5": {
